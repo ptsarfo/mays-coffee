@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — May's Coffee</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:    #C17A2C;
+      --gold-lt: #E09A4A;
+      --text:    #1C1510;
+      --muted:   #7C6E60;
+      --bg:      #F4EDE0;
+      --border:  #DDD0BA;
+      --dark:    #16120C;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--dark);
+      color: var(--text);
+    }
+
+    /* ── Background ── */
+    .page-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        url('https://i.pinimg.com/originals/f5/b2/f5/f5b2f5cd7711fb0a5e6c88ac67a80bb7.jpg')
+        center / cover no-repeat;
+    }
+    .page-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(14, 10, 6, 0.82);
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: relative; z-index: 10;
+      padding: 0 32px;
+      background: rgba(14,10,6,0.6);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .navbar-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .nav-logo {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: #fff; text-decoration: none;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .nav-back {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--gold-lt); }
+    .nav-back svg { flex-shrink: 0; }
+
+    /* ── Card wrapper ── */
+    .auth-wrapper {
+      position: relative; z-index: 5;
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 48px 20px;
+    }
+
+    .auth-card {
+      background: var(--bg);
+      border-radius: 20px;
+      width: 100%; max-width: 440px;
+      padding: 44px 40px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+    }
+
+    /* ── Card header ── */
+    .auth-eyebrow {
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: 10px;
+    }
+    .auth-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 2rem; font-weight: 700;
+      line-height: 1.1; color: var(--text);
+      margin-bottom: 6px;
+    }
+    .auth-subtitle {
+      font-size: 0.85rem; color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    /* ── Tab switcher ── */
+    .auth-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .auth-tab {
+      flex: 1; background: none; border: none;
+      padding: 10px; font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .auth-tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ── Forms ── */
+    .auth-form { display: none; flex-direction: column; gap: 16px; }
+    .auth-form.active { display: flex; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .field input {
+      padding: 13px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.92rem; font-family: 'Inter', sans-serif;
+      color: var(--text); background: #fff;
+      outline: none; transition: border-color 0.2s;
+    }
+    .field input:focus { border-color: var(--gold); }
+    .field input::placeholder { color: #bbb; }
+
+    /* Password wrapper */
+    .pw-wrap { position: relative; }
+    .pw-wrap input { padding-right: 44px; width: 100%; }
+    .pw-toggle {
+      position: absolute; right: 12px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); display: flex; align-items: center;
+      padding: 4px; transition: color 0.2s;
+    }
+    .pw-toggle:hover { color: var(--gold); }
+
+    /* Submit button */
+    .auth-submit {
+      width: 100%; padding: 14px;
+      background: var(--dark); color: #fff;
+      border: none; border-radius: 8px;
+      font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background 0.2s; margin-top: 4px;
+    }
+    .auth-submit:hover   { background: var(--gold); }
+    .auth-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* Divider */
+    .auth-divider {
+      display: flex; align-items: center; gap: 14px;
+      margin: 4px 0;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: ''; flex: 1;
+      border-top: 1px solid var(--border);
+    }
+    .auth-divider span { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+
+    /* Forgot / footer link */
+    .auth-link {
+      font-size: 0.8rem; color: var(--muted);
+      text-align: center;
+    }
+    .auth-link a { color: var(--gold); text-decoration: none; font-weight: 600; }
+    .auth-link a:hover { text-decoration: underline; }
+
+    /* ── Error / success message ── */
+    .auth-msg {
+      display: none; padding: 12px 16px;
+      border-radius: 8px; font-size: 0.84rem;
+      font-weight: 500; text-align: center;
+    }
+    .auth-msg.error   { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c6; }
+    .auth-msg.success { background: #e9f7ef; color: #1e8449; border: 1px solid #a9dfbf; }
+    .auth-msg.show    { display: block; }
+
+    /* ── Footer brand strip ── */
+    .auth-brand {
+      position: relative; z-index: 5;
+      text-align: center; padding: 20px;
+      color: rgba(255,255,255,0.25);
+      font-size: 0.75rem; letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 480px) {
+      .auth-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background image -->
+<div class="page-bg"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="coffee.html" class="nav-logo">May's Coffee</a>
+    <a href="coffee.html" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Back to site
+    </a>
+  </div>
+</nav>
+
+<!-- Auth card -->
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <span class="auth-eyebrow">May's Coffee</span>
+    <h1 class="auth-title" id="auth-title">Welcome Back</h1>
+    <p  class="auth-subtitle" id="auth-subtitle">Sign in to manage your reservations and orders.</p>
+
+    <!-- Tab switcher -->
+    <div class="auth-tabs" role="tablist">
+      <button class="auth-tab active" id="tab-login"    role="tab" aria-selected="true"  onclick="switchTab('login')">Login</button>
+      <button class="auth-tab"        id="tab-register" role="tab" aria-selected="false" onclick="switchTab('register')">Create Account</button>
+    </div>
+
+    <!-- Shared message bar -->
+    <div class="auth-msg" id="auth-msg" role="alert"></div>
+
+    <!-- LOGIN form -->
+    <form class="auth-form active" id="form-login" onsubmit="submitLogin(event)" novalidate>
+
+      <div class="field">
+        <label for="l-email">Email</label>
+        <input type="email" id="l-email" placeholder="your@email.com" autocomplete="email" required />
+      </div>
+
+      <div class="field">
+        <label for="l-password">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="l-password" placeholder="••••••••" autocomplete="current-password" required />
+          <button type="button" class="pw-toggle" aria-label="Toggle password visibility" onclick="togglePw('l-password', this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button class="auth-submit" type="submit" id="btn-login">Sign In</button>
+
+      <p class="auth-link">Don't have an account? <a href="#" onclick="switchTab('register');return false;">Create one</a></p>
+    </form>
+
+    <!-- REGISTER form -->
+    <form class="auth-form" id="form-register" onsubmit="submitRegister(event)" novalidate>
+
+      <div class="field">
+        <label for="r-name">Full Name</label>
+        <input type="text" id="r-name" placeholder="Jane Doe" autocomplete="name" required />
+      </div>
+
+      <div class="field">
+        <label for="r-email">Email</label>
+        <input type="email" id="r-email" placeholder="your@email.com" autocomplete="email" required />
+      </div>
+
+      <div class="field">
+        <label for="r-password">Password <span style="font-size:.65rem;color:#bbb">(min 6 chars)</span></label>
+        <div class="pw-wrap">
+          <input type="password" id="r-password" placeholder="••••••••" autocomplete="new-password" required />
+          <button type="button" class="pw-toggle" aria-label="Toggle password visibility" onclick="togglePw('r-password', this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button class="auth-submit" type="submit" id="btn-register">Create Account</button>
+
+      <p class="auth-link">Already have an account? <a href="#" onclick="switchTab('login');return false;">Sign in</a></p>
+    </form>
+
+  </div>
+</div>
+
+<!-- Brand footer -->
+<div class="auth-brand">© 2026 May's Coffee · Crafted with intention ✦</div>
+
+<script>
+  const API = '/api';
+
+  function switchTab(tab) {
+    const isLogin = tab === 'login';
+    document.getElementById('tab-login').classList.toggle('active', isLogin);
+    document.getElementById('tab-register').classList.toggle('active', !isLogin);
+    document.getElementById('tab-login').setAttribute('aria-selected', String(isLogin));
+    document.getElementById('tab-register').setAttribute('aria-selected', String(!isLogin));
+    document.getElementById('form-login').classList.toggle('active', isLogin);
+    document.getElementById('form-register').classList.toggle('active', !isLogin);
+    document.getElementById('auth-title').textContent    = isLogin ? 'Welcome Back' : 'Create Account';
+    document.getElementById('auth-subtitle').textContent = isLogin
+      ? 'Sign in to manage your reservations and orders.'
+      : 'Join May\'s Coffee — takes less than a minute.';
+    clearMsg();
+  }
+
+  function showMsg(text, type) {
+    const el = document.getElementById('auth-msg');
+    el.textContent = text;
+    el.className = `auth-msg ${type} show`;
+  }
+  function clearMsg() {
+    const el = document.getElementById('auth-msg');
+    el.className = 'auth-msg';
+    el.textContent = '';
+  }
+
+  function togglePw(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const show  = input.type === 'password';
+    input.type  = show ? 'text' : 'password';
+    btn.innerHTML = show
+      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+      : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+  }
+
+  async function submitLogin(e) {
+    e.preventDefault();
+    clearMsg();
+    const btn = document.getElementById('btn-login');
+    btn.disabled    = true;
+    btn.textContent = 'Signing in…';
+
+    try {
+      const res  = await fetch(`${API}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email:    document.getElementById('l-email').value.trim(),
+          password: document.getElementById('l-password').value,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      sessionStorage.setItem('mays_user', JSON.stringify(data.user));
+      showMsg(`Welcome back, ${data.user.name}! Redirecting…`, 'success');
+      setTimeout(() => { window.location.href = 'coffee.html'; }, 1400);
+    } catch (err) {
+      btn.disabled    = false;
+      btn.textContent = 'Sign In';
+      showMsg(err.message, 'error');
+    }
+  }
+
+  async function submitRegister(e) {
+    e.preventDefault();
+    clearMsg();
+    const btn = document.getElementById('btn-register');
+    btn.disabled    = true;
+    btn.textContent = 'Creating account…';
+
+    try {
+      const res  = await fetch(`${API}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:     document.getElementById('r-name').value.trim(),
+          email:    document.getElementById('r-email').value.trim(),
+          password: document.getElementById('r-password').value,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      showMsg('Account created! Switching to login…', 'success');
+      setTimeout(() => {
+        document.getElementById('l-email').value = document.getElementById('r-email').value;
+        document.getElementById('form-register').reset();
+        switchTab('login');
+        clearMsg();
+      }, 1400);
+    } catch (err) {
+      btn.disabled    = false;
+      btn.textContent = 'Create Account';
+      showMsg(err.message, 'error');
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+{
+  "users": [
+    {
+      "id": "62b3e642-c78e-4023-ba2d-23cec70499e8",
+      "name": "Jane Doe",
+      "email": "jane@mays.com",
+      "passwordHash": "$2b$10$oTpi3jgBzeuv5fhRzz1hKua949Op5bmqjczO/WWKQb7fLHOGyAGlS",
+      "createdAt": "2026-06-30T12:14:30.095Z"
+    }
+  ],
+  "subscribers": [
+    {
+      "id": "e2fabe9f-72de-4977-9b34-f668cb814bb5",
+      "email": "test@example.com",
+      "subscribedAt": "2026-06-30T12:05:39.990Z"
+    }
+  ],
+  "reservations": [
+    {
+      "id": "47c39582-bc5b-4858-9901-50a0439fe10a",
+      "name": "Jane",
+      "email": "j@e.com",
+      "phone": "",
+      "date": "2026-07-10",
+      "time": "14:00",
+      "guests": 2,
+      "notes": "",
+      "status": "pending",
+      "createdAt": "2026-06-30T12:05:40.036Z"
+    },
+    {
+      "id": "53575151-88b5-40cf-a129-1d746d5b5887",
+      "name": "Prince Theophilus Sarfo",
+      "email": "sarfoprince940@gmail.com",
+      "phone": "0256897332",
+      "date": "2026-06-30",
+      "time": "14:30",
+      "guests": 10,
+      "notes": "",
+      "status": "pending",
+      "createdAt": "2026-06-30T12:08:18.728Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "0549e85c-239e-484b-b6c7-3bb9e459c9ea",
+      "customerName": "Jane",
+      "email": "j@e.com",
+      "items": [
+        {
+          "name": "Espresso",
+          "price": 4,
+          "qty": 2
+        }
+      ],
+      "total": "8.00",
+      "status": "received",
+      "createdAt": "2026-06-30T12:05:40.078Z"
+    },
+    {
+      "id": "094d86fb-f285-4686-b346-a1f561ca96cb",
+      "customerName": "Prince",
+      "email": "sarfoprince940@gmail.com",
+      "items": [
+        {
+          "name": "Ethiopian Yirgacheffe",
+          "price": 18,
+          "qty": 1
+        }
+      ],
+      "total": "18.00",
+      "status": "received",
+      "createdAt": "2026-06-30T12:09:12.204Z"
+    }
+  ]
+}

@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>May's Coffee — Premium Coffee Everytime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #ffffff;
+      --bg-card:  #f8f6f3;
+      --text:     #1a1a1a;
+      --muted:    #666666;
+      --border:   #e8e0d5;
+      --gold:     #b8860b;
+      --gold-lt:  #d4a017;
+      --brown:    #6b3f1f;
+      --brown-lt: #a0622a;
+      --cream:    #fdf8f2;
+      --red:      #e53e3e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+
+    /* ── Utility ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+    /* ── Dotted pattern ── */
+    .dot-pattern {
+      background-image: radial-gradient(circle, #c8bfb0 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    /* ──────────────────────────
+       NAVBAR
+    ────────────────────────── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      padding: 0 32px;
+    }
+    .navbar.scrolled {
+      border-color: var(--border);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    }
+    .navbar-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700; font-size: 1.25rem;
+      color: var(--text); text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-links {
+      display: flex; gap: 40px; list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s; cursor: pointer;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-login {
+      border: 1.5px solid var(--text); border-radius: 50px;
+      padding: 8px 24px; font-size: 0.875rem; font-weight: 500;
+      background: transparent; color: var(--text);
+      cursor: pointer; transition: background 0.2s, color 0.2s;
+    }
+    .nav-login:hover { background: var(--text); color: #fff; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none; flex-direction: column;
+      background: #fff; border-top: 1px solid var(--border);
+      padding: 24px 32px; gap: 20px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none; color: var(--text);
+      font-size: 1.1rem; font-weight: 500;
+    }
+    .mobile-menu .nav-login { align-self: flex-start; }
+
+    /* ──────────────────────────
+       HERO
+    ────────────────────────── */
+    .hero {
+      padding-top: 100px;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr 280px;
+      grid-template-rows: auto auto;
+      gap: 0;
+      align-items: start;
+      position: relative;
+    }
+
+    /* Left floating images column */
+    .hero-left {
+      display: flex; flex-direction: column;
+      gap: 20px; padding-top: 40px;
+      position: relative;
+    }
+    .float-img {
+      border-radius: 6px; overflow: hidden;
+      position: relative;
+    }
+    .float-img-sm {
+      width: 80px; height: 80px;
+      margin-left: auto; margin-right: 40px;
+      border-radius: 8px; overflow: hidden;
+      box-shadow: 0 4px 16px rgba(107,63,31,0.25);
+    }
+    .float-img-lg {
+      width: 200px; height: 160px;
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 8px 32px rgba(107,63,31,0.3);
+    }
+    .float-img-xs {
+      width: 100px; height: 80px;
+      margin-left: 60px;
+      border-radius: 8px; overflow: hidden;
+      box-shadow: 0 4px 16px rgba(107,63,31,0.25);
+    }
+
+    .product-card {
+      display: flex; align-items: center; gap: 16px;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 18px;
+      width: fit-content; margin-top: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .product-bag {
+      width: 52px; height: 64px;
+      background: linear-gradient(160deg, #c8956c 0%, #8B5E3C 100%);
+      border-radius: 8px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .product-bag::before {
+      content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+      width: 18px; height: 10px;
+      border: 2.5px solid #8B5E3C; border-bottom: none;
+      border-radius: 8px 8px 0 0;
+    }
+    .product-info { line-height: 1.4; }
+    .product-info span { display: block; font-size: 0.8rem; color: var(--muted); }
+    .product-info strong {
+      font-size: 1rem; font-weight: 600; color: var(--text);
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Center headline */
+    .hero-center {
+      padding: 20px 32px 0;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 12px; font-weight: 500;
+    }
+    .hero-headline {
+      font-size: clamp(3rem, 6vw, 5.2rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -0.03em; color: var(--text);
+    }
+    .hero-headline .accent { color: var(--gold); }
+
+    /* Inline bean float inside headline area */
+    .headline-beans {
+      display: inline-flex; gap: 8px; vertical-align: middle;
+      margin-left: 12px; transform: translateY(-8px);
+    }
+    .bean {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #c8956c, #6b3f1f);
+      position: relative;
+    }
+    .bean::after {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+      width: 2px; height: 60%; background: rgba(0,0,0,0.25);
+      border-radius: 2px;
+    }
+    .bean:last-child { transform: scale(0.8); }
+
+    /* Social proof */
+    .social-proof {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 32px;
+    }
+    .avatars { display: flex; }
+    .avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 2.5px solid #fff; margin-left: -10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 600; color: #fff;
+    }
+    .avatar:first-child { margin-left: 0; }
+    .av1 { background: #8B5E3C; }
+    .av2 { background: #5c2d0e; }
+    .av3 { background: #a0622a; }
+    .av4 { background: #3d1c08; }
+    .av5 { background: #6b3f1f; }
+    .social-text { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+    .social-text strong { color: var(--text); display: block; font-size: 0.9rem; }
+
+    /* Sparkle */
+    .sparkle {
+      color: #c8bfb0; font-size: 1.2rem;
+      position: absolute; pointer-events: none; user-select: none;
+    }
+    .sparkle-1 { top: 60px; left: 40px; font-size: 1.5rem; }
+    .sparkle-2 { bottom: 100px; right: 20px; font-size: 1.8rem; }
+
+    /* Right column */
+    .hero-right {
+      padding-top: 20px;
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 20px;
+    }
+    .join-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px 24px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      max-width: 240px;
+    }
+    .join-badge {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 12px;
+    }
+    .play-btn {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--red); display: flex;
+      align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .play-btn svg { margin-left: 2px; }
+    .join-badge span { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .join-card h3 {
+      font-size: 1.05rem; font-weight: 700; line-height: 1.3;
+      margin-bottom: 10px; color: var(--text);
+    }
+    .discover-link {
+      font-size: 0.82rem; color: var(--text); font-weight: 500;
+      text-decoration: underline; text-underline-offset: 3px;
+      cursor: pointer; transition: color 0.2s;
+    }
+    .discover-link:hover { color: var(--gold); }
+
+    /* Dot bg overlay */
+    .dot-overlay {
+      position: absolute; right: -40px; top: 0; bottom: 0;
+      width: 380px;
+      background-image: radial-gradient(circle, #c8bfb0 1.5px, transparent 1.5px);
+      background-size: 22px 22px;
+      opacity: 0.5;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* Secondary latte section inside hero */
+    .hero-bottom {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: center;
+      padding: 56px 0 60px;
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    .hero-bottom-text .eyebrow {
+      font-size: 0.75rem; color: var(--gold);
+      text-transform: uppercase; letter-spacing: 0.15em;
+      font-weight: 500; margin-bottom: 12px;
+    }
+    .hero-bottom-text h2 {
+      font-size: clamp(1.6rem, 2.5vw, 2rem);
+      font-weight: 700; line-height: 1.25;
+      margin-bottom: 16px;
+    }
+    .hero-bottom-text p { color: var(--muted); font-size: 0.9rem; max-width: 400px; }
+
+    .latte-cup {
+      justify-self: center;
+      width: 260px; height: 260px;
+      filter: drop-shadow(0 20px 40px rgba(107,63,31,0.4));
+    }
+
+    /* ──────────────────────────
+       FEATURES
+    ────────────────────────── */
+    .features { padding: 80px 0; background: var(--cream); }
+    .section-label {
+      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600; margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700; line-height: 1.25; margin-bottom: 48px;
+    }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+    }
+    .feature-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px 28px;
+      transition: box-shadow 0.25s, transform 0.25s;
+      cursor: default;
+    }
+    .feature-card:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      transform: translateY(-4px);
+    }
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: linear-gradient(135deg, #c8956c, #8B5E3C);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 1.15rem; font-weight: 700; margin-bottom: 10px;
+    }
+    .feature-card p { color: var(--muted); font-size: 0.875rem; line-height: 1.65; }
+
+    /* ──────────────────────────
+       MENU
+    ────────────────────────── */
+    .menu { padding: 80px 0; }
+    .menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+    .view-all {
+      font-size: 0.875rem; font-weight: 500; color: var(--gold);
+      text-decoration: underline; text-underline-offset: 3px;
+      cursor: pointer; transition: color 0.2s;
+    }
+    .view-all:hover { color: var(--brown); }
+    .menu-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+
+    .menu-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      transition: box-shadow 0.25s, transform 0.25s;
+      cursor: default;
+    }
+    .menu-card:hover {
+      box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+      transform: translateY(-5px);
+    }
+    .menu-img {
+      height: 180px; position: relative;
+    }
+    .menu-img svg { display: block; width: 100%; height: 100%; }
+
+    .roast-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(0,0,0,0.45); color: #fff;
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .menu-body { padding: 20px; }
+    .menu-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700; margin-bottom: 6px;
+    }
+    .menu-origin { font-size: 0.78rem; color: var(--muted); margin-bottom: 14px; }
+    .menu-footer { display: flex; justify-content: space-between; align-items: center; }
+    .menu-price { font-weight: 700; font-size: 1.05rem; font-family: 'Playfair Display', serif; }
+    .add-btn {
+      background: var(--text); color: #fff;
+      border: none; border-radius: 8px;
+      padding: 7px 14px; font-size: 0.78rem; font-weight: 500;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .add-btn:hover { background: var(--gold); }
+
+    /* ──────────────────────────
+       TESTIMONIALS
+    ────────────────────────── */
+    .testimonials { padding: 80px 0; background: var(--cream); }
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 48px; }
+    .testi-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px 28px;
+      transition: box-shadow 0.25s; cursor: default;
+    }
+    .testi-card:hover { box-shadow: 0 10px 36px rgba(0,0,0,0.08); }
+    .stars { color: var(--gold); font-size: 1rem; letter-spacing: 2px; margin-bottom: 16px; }
+    .testi-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.975rem; font-style: italic;
+      line-height: 1.7; color: var(--text); margin-bottom: 24px;
+    }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+    .testi-name { font-size: 0.875rem; font-weight: 600; }
+    .testi-role { font-size: 0.78rem; color: var(--muted); }
+
+    /* ──────────────────────────
+       NEWSLETTER
+    ────────────────────────── */
+    .newsletter {
+      padding: 80px 0;
+      background: var(--text); color: #fff;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .newsletter::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+    .newsletter .section-label { color: var(--gold-lt); }
+    .newsletter h2 { color: #fff; margin-bottom: 16px; }
+    .newsletter p { color: rgba(255,255,255,0.65); font-size: 0.95rem; margin-bottom: 36px; }
+    .nl-form {
+      display: flex; gap: 12px; justify-content: center;
+      flex-wrap: wrap; position: relative; z-index: 1;
+    }
+    .nl-input {
+      padding: 14px 22px; border-radius: 50px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08);
+      color: #fff; font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      width: 300px; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .nl-input::placeholder { color: rgba(255,255,255,0.4); }
+    .nl-input:focus {
+      border-color: var(--gold-lt);
+      background: rgba(255,255,255,0.12);
+    }
+    .nl-btn {
+      padding: 14px 32px; border-radius: 50px;
+      background: var(--gold); color: #fff;
+      border: none; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nl-btn:hover { background: var(--gold-lt); transform: scale(1.03); }
+
+    /* ──────────────────────────
+       FOOTER
+    ────────────────────────── */
+    footer {
+      background: #111; color: rgba(255,255,255,0.6);
+      padding: 56px 32px 32px;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+    }
+    .footer-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 32px; margin-bottom: 48px;
+    }
+    .footer-brand .nav-logo { color: #fff; font-size: 1.35rem; display: block; margin-bottom: 12px; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 240px; }
+    .footer-nav h4 {
+      color: #fff; font-size: 0.8rem; letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 16px; font-family: 'Inter', sans-serif;
+    }
+    .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-nav a {
+      text-decoration: none; color: rgba(255,255,255,0.55);
+      font-size: 0.875rem; transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: var(--gold-lt); }
+
+    .social-icons { display: flex; gap: 12px; margin-top: 8px; }
+    .social-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      color: rgba(255,255,255,0.6);
+    }
+    .social-icon:hover { border-color: var(--gold-lt); background: rgba(184,134,11,0.15); color: var(--gold-lt); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      font-size: 0.8rem;
+    }
+
+    /* ──────────────────────────
+       RESPONSIVE
+    ────────────────────────── */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 200px 1fr 220px; }
+      .menu-grid { grid-template-columns: repeat(2,1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-login { display: none; }
+      .hamburger { display: flex; }
+
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-left { display: none; }
+      .hero-right { align-items: flex-start; margin-top: 24px; }
+      .hero-center { padding: 20px 0 0; }
+      .dot-overlay { display: none; }
+
+      .hero-bottom { grid-template-columns: 1fr; gap: 32px; }
+      .latte-cup { width: 200px; height: 200px; }
+
+      .features-grid { grid-template-columns: 1fr; }
+      .menu-grid { grid-template-columns: repeat(2,1fr); }
+      .testi-grid { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; }
+      .menu-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 20px; }
+      .menu-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+
+    /* ── Fade-in animation ── */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar" id="navbar" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <a href="#" class="nav-logo" aria-label="May's Coffee home">May's Coffee</a>
+      <ul class="nav-links">
+        <li><a href="#menu">Beans</a></li>
+        <li><a href="#menu">Blends</a></li>
+        <li><a href="#menu">Recipes</a></li>
+        <li><a href="#menu">Shop</a></li>
+      </ul>
+      <button class="nav-login" onclick="alert('Login coming soon!')">Log In</button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" role="menu">
+      <a href="#menu" role="menuitem">Beans</a>
+      <a href="#menu" role="menuitem">Blends</a>
+      <a href="#menu" role="menuitem">Recipes</a>
+      <a href="#menu" role="menuitem">Shop</a>
+      <button class="nav-login" onclick="alert('Login coming soon!')">Log In</button>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="container">
+      <div class="hero-grid">
+
+        <!-- Left floating imagery column -->
+        <div class="hero-left" aria-hidden="true">
+          <div class="float-img-sm" title="Coffee beans on spoon">
+            <!-- Coffee beans on wooden spoon – top-down view -->
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+              <rect width="80" height="80" fill="#F5EAD5"/>
+              <!-- Spoon handle -->
+              <path d="M37 50 L37 73 Q37 77 40 77 Q43 77 43 73 L43 50 Z" fill="#8B6310"/>
+              <!-- Spoon bowl shadow -->
+              <ellipse cx="40" cy="37" rx="22" ry="13" fill="#7A5A0E" opacity="0.3"/>
+              <!-- Spoon bowl -->
+              <ellipse cx="40" cy="35" rx="22" ry="13" fill="#A07820"/>
+              <!-- Bowl highlight -->
+              <ellipse cx="34" cy="29" rx="11" ry="6" fill="#D4A030" opacity="0.3"/>
+              <!-- Bean 1 (top-left, rotated -25°) -->
+              <g transform="rotate(-25 33 31)">
+                <ellipse cx="33" cy="31" rx="9.5" ry="6" fill="#3D1C08"/>
+                <ellipse cx="31.5" cy="29.5" rx="6" ry="3.8" fill="#5C2D0E" opacity="0.7"/>
+                <path d="M33 25 Q33 28 33 31 Q33 34 33 37" stroke="#1A0804" stroke-width="1.3" stroke-linecap="round"/>
+              </g>
+              <!-- Bean 2 (right, rotated 12°) -->
+              <g transform="rotate(12 49 35)">
+                <ellipse cx="49" cy="35" rx="9" ry="6" fill="#4A2C12"/>
+                <ellipse cx="47.5" cy="33.5" rx="5.5" ry="3.5" fill="#6B3F1F" opacity="0.7"/>
+                <path d="M49 29 Q49 32 49 35 Q49 38 49 41" stroke="#2A1008" stroke-width="1.3" stroke-linecap="round"/>
+              </g>
+              <!-- Bean 3 (bottom-center, rotated 5°) -->
+              <g transform="rotate(5 40 44)">
+                <ellipse cx="40" cy="44" rx="8.5" ry="5.5" fill="#2A1008"/>
+                <ellipse cx="38.5" cy="42.5" rx="5.5" ry="3.5" fill="#3D1C08" opacity="0.7"/>
+                <path d="M40 38.5 Q40 41 40 44 Q40 47 40 49.5" stroke="#12060A" stroke-width="1.3" stroke-linecap="round"/>
+              </g>
+            </svg>
+          </div>
+          <!-- Coffee bean pile illustration -->
+          <div class="float-img-lg">
+            <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" width="200" height="160">
+              <rect width="200" height="160" fill="#F0E2CC"/>
+              <!-- Pile shadow -->
+              <ellipse cx="100" cy="136" rx="72" ry="12" fill="rgba(61,28,8,0.18)"/>
+              <!-- Row 1 -->
+              <g transform="rotate(-35 38 85)"><ellipse cx="38" cy="85" rx="19" ry="13" fill="#3D1C08"/><ellipse cx="36" cy="82" rx="12" ry="8" fill="#5C2D0E" opacity="0.7"/><path d="M38 72 Q38 79 38 85 Q38 91 38 98" stroke="#1A0804" stroke-width="1.8" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(20 75 80)"><ellipse cx="75" cy="80" rx="18" ry="12" fill="#4A2C12"/><ellipse cx="73" cy="77" rx="11" ry="7" fill="#6B3F1F" opacity="0.7"/><path d="M75 68 Q75 74 75 80 Q75 86 75 92" stroke="#2A1008" stroke-width="1.8" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(-10 115 78)"><ellipse cx="115" cy="78" rx="17" ry="11" fill="#5C2D0E"/><ellipse cx="113" cy="75.5" rx="11" ry="7" fill="#8B4E2A" opacity="0.7"/><path d="M115 67 Q115 73 115 78 Q115 83 115 89" stroke="#3D1C08" stroke-width="1.8" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(30 155 82)"><ellipse cx="155" cy="82" rx="18" ry="12" fill="#3D1C08"/><ellipse cx="153" cy="79" rx="11" ry="7" fill="#5C2D0E" opacity="0.7"/><path d="M155 70 Q155 76 155 82 Q155 88 155 94" stroke="#1A0804" stroke-width="1.8" stroke-linecap="round" fill="none"/></g>
+              <!-- Row 2 -->
+              <g transform="rotate(15 55 108)"><ellipse cx="55" cy="108" rx="18" ry="12" fill="#2A1008"/><ellipse cx="53" cy="105" rx="11" ry="7" fill="#4A2C12" opacity="0.7"/><path d="M55 96 Q55 102 55 108 Q55 114 55 120" stroke="#12060A" stroke-width="1.8" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(-20 97 110)"><ellipse cx="97" cy="110" rx="19" ry="13" fill="#4A2C12"/><ellipse cx="95" cy="107" rx="12" ry="8" fill="#6B3F1F" opacity="0.7"/><path d="M97 97 Q97 104 97 110 Q97 116 97 123" stroke="#2A1008" stroke-width="1.8" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(5 137 108)"><ellipse cx="137" cy="108" rx="18" ry="12" fill="#5C2D0E"/><ellipse cx="135" cy="105" rx="11" ry="7" fill="#8B4E2A" opacity="0.7"/><path d="M137 96 Q137 102 137 108 Q137 114 137 120" stroke="#3D1C08" stroke-width="1.8" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(-30 172 105)"><ellipse cx="172" cy="105" rx="17" ry="11" fill="#3D1C08"/><ellipse cx="170" cy="102" rx="11" ry="7" fill="#5C2D0E" opacity="0.7"/><path d="M172 94 Q172 100 172 105 Q172 110 172 116" stroke="#1A0804" stroke-width="1.8" stroke-linecap="round" fill="none"/></g>
+              <!-- Foreground (larger, on top) -->
+              <g transform="rotate(8 72 60)"><ellipse cx="72" cy="60" rx="16" ry="11" fill="#6B3F1F"/><ellipse cx="70" cy="57.5" rx="10" ry="6.5" fill="#A0622A" opacity="0.7"/><path d="M72 49 Q72 55 72 60 Q72 65 72 71" stroke="#4A2C12" stroke-width="1.5" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(-15 130 55)"><ellipse cx="130" cy="55" rx="17" ry="11.5" fill="#8B4E2A"/><ellipse cx="128" cy="52.5" rx="11" ry="7" fill="#C8956C" opacity="0.6"/><path d="M130 43.5 Q130 49 130 55 Q130 61 130 66.5" stroke="#5C2D0E" stroke-width="1.5" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(25 25 58)"><ellipse cx="25" cy="58" rx="15" ry="10" fill="#4A2C12"/><ellipse cx="23" cy="55.5" rx="9" ry="6" fill="#6B3F1F" opacity="0.7"/><path d="M25 48 Q25 53 25 58 Q25 63 25 68" stroke="#2A1008" stroke-width="1.5" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(-5 175 57)"><ellipse cx="175" cy="57" rx="15" ry="10" fill="#3D1C08"/><ellipse cx="173" cy="54.5" rx="9" ry="6" fill="#5C2D0E" opacity="0.7"/><path d="M175 47 Q175 52 175 57 Q175 62 175 67" stroke="#1A0804" stroke-width="1.5" stroke-linecap="round" fill="none"/></g>
+            </svg>
+          </div>
+          <div class="product-card">
+            <!-- Coffee bag illustration -->
+            <div class="product-bag" aria-hidden="true">
+              <svg viewBox="0 0 52 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="52" height="64">
+                <!-- Bag body -->
+                <path d="M5 18 L7 58 Q26 63 45 58 L47 18 Z" fill="#8B6010"/>
+                <!-- Bag top seal -->
+                <rect x="5" y="12" width="42" height="8" rx="3" fill="#C89B3C"/>
+                <!-- Bag front face -->
+                <path d="M7 22 L8.5 57 Q26 60 43.5 57 L45 22 Z" fill="#A07030"/>
+                <!-- Label area on bag -->
+                <rect x="12" y="27" width="28" height="22" rx="4" fill="#F5ECD5"/>
+                <!-- "MC" logo on label -->
+                <text x="26" y="41" font-size="10" font-weight="800" text-anchor="middle" fill="#6B3F1F" font-family="Georgia,serif">MC</text>
+                <line x1="15" y1="45" x2="37" y2="45" stroke="#6B3F1F" stroke-width="0.7" opacity="0.45"/>
+                <!-- Top handle/clip detail -->
+                <rect x="16" y="10" width="20" height="5" rx="2.5" fill="#D4A030" opacity="0.7"/>
+                <!-- Degassing valve -->
+                <circle cx="39" cy="53" r="3.5" fill="#7A5010" stroke="#C89B3C" stroke-width="0.8"/>
+                <circle cx="39" cy="53" r="1.5" fill="rgba(245,236,213,0.4)"/>
+                <!-- Bag side shadow -->
+                <path d="M7 22 L8.5 57" stroke="rgba(0,0,0,0.15)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="product-info">
+              <span>Featured Product</span>
+              <strong>Signature Blend</strong>
+              <span style="color: var(--text); font-weight:600; font-size:0.95rem; font-family:'Playfair Display',serif;">$20.00</span>
+            </div>
+          </div>
+          <!-- Espresso cup side-view illustration -->
+          <div class="float-img-xs">
+            <svg viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="100" height="80">
+              <rect width="100" height="80" fill="#EEE0C8"/>
+              <!-- Saucer -->
+              <ellipse cx="50" cy="69" rx="36" ry="8" fill="#D8CAAC" opacity="0.6"/>
+              <ellipse cx="50" cy="67" rx="36" ry="8" fill="#F2EDE6"/>
+              <ellipse cx="50" cy="65" rx="30" ry="5.5" fill="#E4DDD4"/>
+              <!-- Cup body -->
+              <path d="M21 38 L24 62 Q50 67 76 62 L79 38 Z" fill="white"/>
+              <path d="M21 38 Q21 63 50 64 Q79 63 79 38" stroke="#DDD5CA" stroke-width="1" fill="none"/>
+              <!-- Cup top rim -->
+              <ellipse cx="50" cy="38" rx="29" ry="7.5" fill="#F8F4F0" stroke="#DDD5CA" stroke-width="1"/>
+              <!-- Espresso surface -->
+              <ellipse cx="50" cy="38" rx="25" ry="5.5" fill="#3D1C08"/>
+              <!-- Crema swirl on espresso -->
+              <ellipse cx="50" cy="38" rx="25" ry="5.5" fill="none"/>
+              <path d="M30 37 Q40 34 50 38 Q60 42 70 37" stroke="#C8783C" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.7"/>
+              <path d="M35 39.5 Q42 37 50 39.5 Q58 42 65 39.5" stroke="#C8783C" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/>
+              <!-- Cup handle -->
+              <path d="M79 43 Q93 43 93 52 Q93 61 79 61" stroke="#DDD5CA" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+              <path d="M79 43 Q91 43 91 52 Q91 61 79 61" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <!-- Steam wisps -->
+              <path d="M40 29 Q38 21 40 13" stroke="#C8956C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+              <path d="M50 27 Q48 19 50 11" stroke="#C8956C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+              <path d="M60 29 Q58 21 60 13" stroke="#C8956C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Center headline -->
+        <div class="hero-center">
+          <p class="hero-eyebrow">Discover the Art of Coffee</p>
+          <h1 class="hero-headline" id="hero-heading">
+            Premium
+            <span class="headline-beans" aria-hidden="true">
+              <span class="bean"></span>
+              <span class="bean"></span>
+            </span>
+            <br>Perfect Coffee
+            <br><span class="accent">Everytime</span>
+          </h1>
+          <div class="social-proof" aria-label="500+ satisfied customers">
+            <div class="avatars" aria-hidden="true">
+              <div class="avatar av1">AM</div>
+              <div class="avatar av2">JK</div>
+              <div class="avatar av3">RL</div>
+              <div class="avatar av4">ST</div>
+              <div class="avatar av5">PW</div>
+            </div>
+            <div class="social-text">
+              <strong>500+ Satisfied Customers</strong>
+              Joining our coffee family daily
+            </div>
+          </div>
+        </div>
+
+        <!-- Right card -->
+        <div class="hero-right" aria-hidden="true">
+          <div class="join-card">
+            <div class="join-badge">
+              <div class="play-btn">
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="white">
+                  <path d="M1 1L9 6L1 11V1Z"/>
+                </svg>
+              </div>
+              <span>Join Free</span>
+            </div>
+            <h3>Elevate Your Coffee Experience</h3>
+            <span class="discover-link">Discover More</span>
+          </div>
+          <span class="sparkle sparkle-2" aria-hidden="true">✦</span>
+        </div>
+
+      </div>
+
+      <!-- Dot overlay -->
+      <div class="dot-overlay" aria-hidden="true"></div>
+      <span class="sparkle sparkle-1" aria-hidden="true">✦</span>
+
+      <!-- Bottom tagline strip -->
+      <div class="hero-bottom">
+        <div class="hero-bottom-text fade-up">
+          <p class="eyebrow">Have A Good Day</p>
+          <h2>Ready To Explore Our Premium Coffee Beans?</h2>
+          <p>From morning brews to evening relaxations, our beans ensure every cup is a delight. Enjoy the perfect blend of flavor and aroma with every sip.</p>
+        </div>
+        <!-- Latte art top-down SVG illustration -->
+        <div class="latte-cup fade-up" aria-label="Latte art coffee cup" style="transition-delay:0.15s">
+          <svg viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <defs>
+              <radialGradient id="saucerGrad" cx="50%" cy="48%" r="50%">
+                <stop offset="0%" stop-color="#EDE7E0"/>
+                <stop offset="100%" stop-color="#D8CFC6"/>
+              </radialGradient>
+            </defs>
+            <!-- Saucer shadow -->
+            <ellipse cx="130" cy="138" rx="112" ry="18" fill="rgba(61,28,8,0.12)"/>
+            <!-- Saucer -->
+            <circle cx="130" cy="132" r="110" fill="url(#saucerGrad)"/>
+            <circle cx="130" cy="130" r="105" fill="#F0EBE4"/>
+            <!-- Cup rim -->
+            <circle cx="130" cy="128" r="96" fill="#DDD5C8"/>
+            <circle cx="130" cy="126" r="92" fill="white"/>
+            <!-- Coffee surface (dark base) -->
+            <circle cx="130" cy="125" r="87" fill="#3D1C08"/>
+            <!-- Milk foam surface -->
+            <circle cx="130" cy="125" r="84" fill="#F5ECD5"/>
+            <!-- ── Rosetta latte art ── -->
+            <!-- Central spine (pour line) -->
+            <path d="M130 52 Q130 90 130 125 Q130 158 130 192" stroke="#C8783C" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.7"/>
+            <!-- Left branches, top to bottom -->
+            <path d="M130 68  Q112 75  97  88"  stroke="#C8783C" stroke-width="9"   stroke-linecap="round" fill="none" opacity="0.72"/>
+            <path d="M130 82  Q110 90  94 106"  stroke="#C8783C" stroke-width="8.5" stroke-linecap="round" fill="none" opacity="0.67"/>
+            <path d="M130 96  Q111 103  96 122" stroke="#C8783C" stroke-width="8"   stroke-linecap="round" fill="none" opacity="0.62"/>
+            <path d="M130 110 Q114 116 101 133" stroke="#C8783C" stroke-width="7"   stroke-linecap="round" fill="none" opacity="0.57"/>
+            <path d="M130 124 Q116 130 106 146" stroke="#C8783C" stroke-width="6"   stroke-linecap="round" fill="none" opacity="0.52"/>
+            <path d="M130 138 Q118 143 112 157" stroke="#C8783C" stroke-width="5"   stroke-linecap="round" fill="none" opacity="0.45"/>
+            <path d="M130 151 Q121 155 118 167" stroke="#C8783C" stroke-width="4"   stroke-linecap="round" fill="none" opacity="0.38"/>
+            <!-- Right branches, top to bottom -->
+            <path d="M130 68  Q148 75  163  88"  stroke="#C8783C" stroke-width="9"   stroke-linecap="round" fill="none" opacity="0.72"/>
+            <path d="M130 82  Q150 90  166 106"  stroke="#C8783C" stroke-width="8.5" stroke-linecap="round" fill="none" opacity="0.67"/>
+            <path d="M130 96  Q149 103 164 122"  stroke="#C8783C" stroke-width="8"   stroke-linecap="round" fill="none" opacity="0.62"/>
+            <path d="M130 110 Q146 116 159 133"  stroke="#C8783C" stroke-width="7"   stroke-linecap="round" fill="none" opacity="0.57"/>
+            <path d="M130 124 Q144 130 154 146"  stroke="#C8783C" stroke-width="6"   stroke-linecap="round" fill="none" opacity="0.52"/>
+            <path d="M130 138 Q142 143 148 157"  stroke="#C8783C" stroke-width="5"   stroke-linecap="round" fill="none" opacity="0.45"/>
+            <path d="M130 151 Q139 155 142 167"  stroke="#C8783C" stroke-width="4"   stroke-linecap="round" fill="none" opacity="0.38"/>
+            <!-- Foam dot/heart at tip of pour -->
+            <circle cx="130" cy="52" r="13" fill="#F5ECD5" opacity="0.95"/>
+            <circle cx="127" cy="50" r="4.5" fill="rgba(61,28,8,0.12)"/>
+            <!-- Cup rim glow -->
+            <circle cx="130" cy="125" r="89" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="3"/>
+            <!-- Surface sheen -->
+            <ellipse cx="106" cy="96" rx="20" ry="9" fill="rgba(255,255,255,0.06)" transform="rotate(-25 106 96)"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FEATURES ── -->
+  <section class="features" aria-labelledby="features-heading">
+    <div class="container">
+      <p class="section-label">Why Choose Us</p>
+      <h2 class="section-title" id="features-heading">Crafted With Passion,<br>Served With Pride</h2>
+      <div class="features-grid">
+        <div class="feature-card fade-up">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 010 20"/>
+              <path d="M2 12h20"/><path d="M12 2c-2.5 3-4 6.5-4 10s1.5 7 4 10"/>
+            </svg>
+          </div>
+          <h3>Single Origin</h3>
+          <p>Every bean is carefully sourced from a single farm, preserving the unique terroir and distinctive character of each growing region.</p>
+        </div>
+        <div class="feature-card fade-up" style="transition-delay:0.1s">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 6h18M3 12h18M3 18h18"/><circle cx="8" cy="6" r="2" fill="white"/>
+              <circle cx="16" cy="12" r="2" fill="white"/><circle cx="8" cy="18" r="2" fill="white"/>
+            </svg>
+          </div>
+          <h3>Small Batch Roasted</h3>
+          <p>We roast in small, controlled batches to ensure peak freshness and consistency, locking in the flavours at their absolute best.</p>
+        </div>
+        <div class="feature-card fade-up" style="transition-delay:0.2s">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12H19M12 5l7 7-7 7"/><rect x="1" y="3" width="4" height="18" rx="1"/>
+            </svg>
+          </div>
+          <h3>Freshly Delivered</h3>
+          <p>From roaster to your door within 48 hours. No warehousing, no stale beans — just the freshest coffee possible, straight to you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MENU ── -->
+  <section class="menu" id="menu" aria-labelledby="menu-heading">
+    <div class="container">
+      <div class="menu-header">
+        <div>
+          <p class="section-label">Our Selection</p>
+          <h2 class="section-title" id="menu-heading" style="margin-bottom:0">Signature Roasts</h2>
+        </div>
+        <span class="view-all" tabindex="0" role="button" aria-label="View all products">View All</span>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-card fade-up">
+          <!-- Ethiopian Yirgacheffe: Pour-over V60 setup -->
+          <div class="menu-img menu-img-1">
+            <span class="roast-badge">Medium Roast</span>
+            <svg viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" width="100%" height="180" aria-hidden="true">
+              <rect width="280" height="180" fill="#F5E8D0"/>
+              <rect y="148" width="280" height="32" fill="#E4D0B0"/>
+              <!-- Glass server -->
+              <path d="M95 148 L100 95 L180 95 L185 148 Z" fill="rgba(255,255,255,0.45)" stroke="#C8B090" stroke-width="1.5"/>
+              <!-- Coffee in server (amber) -->
+              <path d="M97.5 148 L101 112 L179 112 L182.5 148 Z" fill="#C8783C" opacity="0.75"/>
+              <path d="M97.5 148 L101 112 L179 112 L182.5 148 Z" fill="#7A3C10" opacity="0.3"/>
+              <!-- Glass reflection -->
+              <path d="M102 97 L103 145" stroke="rgba(255,255,255,0.5)" stroke-width="4" stroke-linecap="round"/>
+              <!-- Server neck -->
+              <rect x="118" y="84" width="44" height="13" rx="5" fill="rgba(255,255,255,0.55)" stroke="#C8B090" stroke-width="1.5"/>
+              <!-- V60 dripper cone -->
+              <path d="M108 44 Q140 90 140 91 Q140 90 172 44 Z" fill="#EDE0CC" stroke="#C8B090" stroke-width="1.5"/>
+              <!-- Ribs inside -->
+              <path d="M124 49 Q140 82 140 91" stroke="#C8B090" stroke-width="0.9" opacity="0.55" fill="none"/>
+              <path d="M131 46 Q140 82 140 91" stroke="#C8B090" stroke-width="0.9" opacity="0.55" fill="none"/>
+              <path d="M140 45 Q140 82 140 91" stroke="#C8B090" stroke-width="0.9" opacity="0.55" fill="none"/>
+              <path d="M149 46 Q140 82 140 91" stroke="#C8B090" stroke-width="0.9" opacity="0.55" fill="none"/>
+              <path d="M156 49 Q140 82 140 91" stroke="#C8B090" stroke-width="0.9" opacity="0.55" fill="none"/>
+              <!-- V60 collar ring -->
+              <ellipse cx="140" cy="44" rx="32" ry="7.5" fill="#D8CCBC" stroke="#C8B090" stroke-width="1.5"/>
+              <!-- Paper filter -->
+              <path d="M110 44 Q140 88 140 89 Q140 88 170 44 Z" fill="rgba(255,255,255,0.65)" opacity="0.65"/>
+              <!-- Ground coffee -->
+              <ellipse cx="140" cy="76" rx="11" ry="4.5" fill="#4A2C12" opacity="0.85"/>
+              <!-- Drip -->
+              <path d="M140 91 L140 99" stroke="#C8783C" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+              <circle cx="140" cy="102" r="2.2" fill="#C8783C" opacity="0.7"/>
+              <!-- Scattered beans bg -->
+              <g transform="rotate(-20 60 52)" opacity="0.6"><ellipse cx="60" cy="52" rx="11" ry="7" fill="#3D1C08"/><path d="M60 45 Q60 49 60 52 Q60 55 60 59" stroke="#1A0804" stroke-width="1.2" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(15 218 58)" opacity="0.6"><ellipse cx="218" cy="58" rx="11" ry="7" fill="#4A2C12"/><path d="M218 51 Q218 55 218 58 Q218 61 218 65" stroke="#2A1008" stroke-width="1.2" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(-5 230 130)" opacity="0.5"><ellipse cx="230" cy="130" rx="9" ry="6" fill="#3D1C08"/><path d="M230 124 Q230 127 230 130 Q230 133 230 136" stroke="#1A0804" stroke-width="1" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(30 50 125)" opacity="0.5"><ellipse cx="50" cy="125" rx="9" ry="6" fill="#4A2C12"/><path d="M50 119 Q50 122 50 125 Q50 128 50 131" stroke="#2A1008" stroke-width="1" stroke-linecap="round" fill="none"/></g>
+            </svg>
+          </div>
+          <div class="menu-body">
+            <h3 class="menu-name">Ethiopian Yirgacheffe</h3>
+            <p class="menu-origin">Ethiopia · Floral &amp; Citrus notes</p>
+            <div class="menu-footer">
+              <span class="menu-price">$18.00</span>
+              <button class="add-btn" aria-label="Add Ethiopian Yirgacheffe to cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card fade-up" style="transition-delay:0.1s">
+          <!-- Colombian Supremo: Espresso demitasse with crema -->
+          <div class="menu-img menu-img-2">
+            <span class="roast-badge">Dark Roast</span>
+            <svg viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" width="100%" height="180" aria-hidden="true">
+              <defs>
+                <radialGradient id="crema" cx="50%" cy="45%" r="55%">
+                  <stop offset="0%"   stop-color="#D4884A"/>
+                  <stop offset="45%"  stop-color="#A85020"/>
+                  <stop offset="75%"  stop-color="#8B3A18"/>
+                  <stop offset="100%" stop-color="#4A1C08"/>
+                </radialGradient>
+                <radialGradient id="bgGlow" cx="40%" cy="30%" r="60%">
+                  <stop offset="0%" stop-color="#4A2010" stop-opacity="0.45"/>
+                  <stop offset="100%" stop-color="#0A0402" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <!-- Dark background -->
+              <rect width="280" height="180" fill="#120804"/>
+              <rect width="280" height="180" fill="url(#bgGlow)"/>
+              <rect y="150" width="280" height="30" fill="#1E0C06"/>
+              <!-- Saucer -->
+              <ellipse cx="140" cy="150" rx="68" ry="13" fill="#3D1C08" opacity="0.8"/>
+              <ellipse cx="140" cy="147" rx="64" ry="11" fill="#4A2C12"/>
+              <ellipse cx="140" cy="145" rx="58" ry="8.5" fill="#3A1A08"/>
+              <!-- Cup body (white ceramic) -->
+              <path d="M104 110 L108 140 Q140 145 172 140 L176 110 Z" fill="white"/>
+              <path d="M104 110 Q104 142 140 143 Q176 142 176 110" stroke="#E0D8D0" stroke-width="1" fill="none"/>
+              <!-- Cup top rim -->
+              <ellipse cx="140" cy="110" rx="36" ry="9.5" fill="#F8F5F2" stroke="#E0D8D0" stroke-width="0.8"/>
+              <!-- Espresso crema surface -->
+              <ellipse cx="140" cy="110" rx="33" ry="7.8" fill="url(#crema)"/>
+              <!-- Crema swirl lines -->
+              <path d="M118 110 Q129 106 140 110 Q151 114 162 110" stroke="rgba(212,136,74,0.55)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              <path d="M124 112.5 Q132 109 140 112.5 Q148 116 156 112.5" stroke="rgba(212,136,74,0.4)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+              <path d="M130 108 Q135 106 140 108 Q145 110 150 108" stroke="rgba(255,200,140,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <!-- Cup handle -->
+              <path d="M176 116 Q194 116 194 127 Q194 138 176 138" stroke="#E0D8D0" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <path d="M176 116 Q192 116 192 127 Q192 138 176 138" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <!-- Steam -->
+              <path d="M126 97 Q123 86 126 76" stroke="#6B4030" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.45"/>
+              <path d="M140 95 Q137 84 140 74" stroke="#6B4030" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.45"/>
+              <path d="M154 97 Q151 86 154 76" stroke="#6B4030" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.45"/>
+              <!-- Ambient glow spots -->
+              <circle cx="55" cy="42" r="38" fill="rgba(160,80,30,0.07)"/>
+              <circle cx="224" cy="140" r="32" fill="rgba(160,80,30,0.06)"/>
+            </svg>
+          </div>
+          <div class="menu-body">
+            <h3 class="menu-name">Colombian Supremo</h3>
+            <p class="menu-origin">Colombia · Rich &amp; Chocolatey notes</p>
+            <div class="menu-footer">
+              <span class="menu-price">$20.00</span>
+              <button class="add-btn" aria-label="Add Colombian Supremo to cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card fade-up" style="transition-delay:0.2s">
+          <!-- Kenyan AA Reserve: French press illustration -->
+          <div class="menu-img menu-img-3">
+            <span class="roast-badge">Light Roast</span>
+            <svg viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" width="100%" height="180" aria-hidden="true">
+              <rect width="280" height="180" fill="#EDD8BA"/>
+              <rect y="154" width="280" height="26" fill="#D8C09A"/>
+              <!-- Frame base -->
+              <rect x="82" y="152" width="116" height="6" rx="3" fill="#C8A878"/>
+              <rect x="90" y="157" width="100" height="4" rx="2" fill="#B89060"/>
+              <!-- Glass body -->
+              <rect x="96" y="32" width="88" height="122" rx="9" fill="rgba(255,255,255,0.32)" stroke="#C8B090" stroke-width="1.5"/>
+              <!-- Coffee inside (lower 65%) -->
+              <clipPath id="fpClip"><rect x="97.5" y="33" width="85" height="120" rx="8"/></clipPath>
+              <rect x="97.5" y="73" width="85" height="79" fill="#9B4020" clip-path="url(#fpClip)" opacity="0.9"/>
+              <rect x="97.5" y="73" width="85" height="79" fill="#5C1E08" clip-path="url(#fpClip)" opacity="0.35"/>
+              <!-- Grounds at bottom -->
+              <rect x="97.5" y="137" width="85" height="16" fill="#3D0E04" clip-path="url(#fpClip)" opacity="0.7"/>
+              <!-- Clear top -->
+              <rect x="97.5" y="33" width="85" height="40" fill="rgba(255,255,255,0.18)" clip-path="url(#fpClip)"/>
+              <!-- Glass left reflection -->
+              <rect x="98" y="34" width="13" height="118" rx="5" fill="rgba(255,255,255,0.22)"/>
+              <!-- Coffee surface line -->
+              <rect x="97.5" y="73" width="85" height="3.5" rx="1" fill="#D4884A" opacity="0.55"/>
+              <!-- Plunger rod -->
+              <rect x="136" y="6" width="8" height="74" rx="4" fill="#907050"/>
+              <!-- Top knob -->
+              <rect x="127" y="4" width="26" height="10" rx="5" fill="#A08060"/>
+              <!-- Plunger disc -->
+              <rect x="99" y="77" width="82" height="6.5" rx="3.2" fill="#907050" opacity="0.9"/>
+              <!-- Mesh holes on disc -->
+              <circle cx="115" cy="80" r="1.5" fill="rgba(0,0,0,0.22)"/>
+              <circle cx="124" cy="80" r="1.5" fill="rgba(0,0,0,0.22)"/>
+              <circle cx="133" cy="80" r="1.5" fill="rgba(0,0,0,0.22)"/>
+              <circle cx="142" cy="80" r="1.5" fill="rgba(0,0,0,0.22)"/>
+              <circle cx="151" cy="80" r="1.5" fill="rgba(0,0,0,0.22)"/>
+              <circle cx="160" cy="80" r="1.5" fill="rgba(0,0,0,0.22)"/>
+              <!-- Steam -->
+              <path d="M126 32 Q123 20 126 10" stroke="#C8956C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.35"/>
+              <path d="M140 30 Q137 18 140 8"  stroke="#C8956C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.35"/>
+              <path d="M154 32 Q151 20 154 10" stroke="#C8956C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.35"/>
+              <!-- Background beans -->
+              <g transform="rotate(-15 55 55)" opacity="0.5"><ellipse cx="55" cy="55" rx="11" ry="7" fill="#3D1C08"/><path d="M55 48 Q55 52 55 55 Q55 58 55 62" stroke="#1A0804" stroke-width="1" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(20 225 48)" opacity="0.5"><ellipse cx="225" cy="48" rx="11" ry="7" fill="#4A2C12"/><path d="M225 41 Q225 45 225 48 Q225 51 225 55" stroke="#2A1008" stroke-width="1" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(5 232 122)" opacity="0.45"><ellipse cx="232" cy="122" rx="9.5" ry="6" fill="#3D1C08"/><path d="M232 116 Q232 119 232 122 Q232 125 232 128" stroke="#1A0804" stroke-width="1" stroke-linecap="round" fill="none"/></g>
+              <g transform="rotate(-10 48 128)" opacity="0.45"><ellipse cx="48" cy="128" rx="9.5" ry="6" fill="#4A2C12"/><path d="M48 122 Q48 125 48 128 Q48 131 48 134" stroke="#2A1008" stroke-width="1" stroke-linecap="round" fill="none"/></g>
+            </svg>
+          </div>
+          <div class="menu-body">
+            <h3 class="menu-name">Kenyan AA Reserve</h3>
+            <p class="menu-origin">Kenya · Berry &amp; Wine notes</p>
+            <div class="menu-footer">
+              <span class="menu-price">$22.00</span>
+              <button class="add-btn" aria-label="Add Kenyan AA Reserve to cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card fade-up" style="transition-delay:0.3s">
+          <!-- May's House Blend: Cappuccino top-down with foam art -->
+          <div class="menu-img menu-img-4">
+            <span class="roast-badge">Espresso Blend</span>
+            <svg viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" width="100%" height="180" aria-hidden="true">
+              <defs>
+                <radialGradient id="capBg" cx="50%" cy="50%" r="55%">
+                  <stop offset="0%"   stop-color="#5C2A0E" stop-opacity="0.45"/>
+                  <stop offset="100%" stop-color="#120806" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="280" height="180" fill="#1A0A04"/>
+              <rect width="280" height="180" fill="url(#capBg)"/>
+              <!-- Saucer -->
+              <ellipse cx="140" cy="106" rx="102" ry="62" fill="#3D1C08"/>
+              <ellipse cx="140" cy="103" rx="98"  ry="58" fill="#4A2C12"/>
+              <ellipse cx="140" cy="101" rx="93"  ry="53" fill="#E8DDD0"/>
+              <!-- Cup outer rim -->
+              <ellipse cx="140" cy="99" rx="88" ry="49" fill="white"/>
+              <!-- Cup inner wall -->
+              <ellipse cx="140" cy="97" rx="83" ry="44" fill="#F8F4F0"/>
+              <!-- Espresso dark base -->
+              <ellipse cx="140" cy="96" rx="79" ry="41" fill="#3D1C08"/>
+              <!-- Milk foam surface -->
+              <ellipse cx="140" cy="96" rx="76" ry="39" fill="#F5ECD5"/>
+              <!-- ── Cappuccino foam rosetta ── -->
+              <!-- Central spine -->
+              <path d="M140 59 Q140 78 140 96 Q140 114 140 130" stroke="#C8783C" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.65"/>
+              <!-- Left branches -->
+              <path d="M140 68  Q124 74  111  86"  stroke="#C8783C" stroke-width="8"   stroke-linecap="round" fill="none" opacity="0.65"/>
+              <path d="M140 79  Q122 86  108 100"  stroke="#C8783C" stroke-width="7.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+              <path d="M140 90  Q123 96  110 112"  stroke="#C8783C" stroke-width="7"   stroke-linecap="round" fill="none" opacity="0.55"/>
+              <path d="M140 101 Q125 106 114 120"  stroke="#C8783C" stroke-width="6"   stroke-linecap="round" fill="none" opacity="0.5"/>
+              <path d="M140 112 Q127 116 119 128"  stroke="#C8783C" stroke-width="5"   stroke-linecap="round" fill="none" opacity="0.43"/>
+              <!-- Right branches -->
+              <path d="M140 68  Q156 74  169  86"  stroke="#C8783C" stroke-width="8"   stroke-linecap="round" fill="none" opacity="0.65"/>
+              <path d="M140 79  Q158 86  172 100"  stroke="#C8783C" stroke-width="7.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+              <path d="M140 90  Q157 96  170 112"  stroke="#C8783C" stroke-width="7"   stroke-linecap="round" fill="none" opacity="0.55"/>
+              <path d="M140 101 Q155 106 166 120"  stroke="#C8783C" stroke-width="6"   stroke-linecap="round" fill="none" opacity="0.5"/>
+              <path d="M140 112 Q153 116 161 128"  stroke="#C8783C" stroke-width="5"   stroke-linecap="round" fill="none" opacity="0.43"/>
+              <!-- Foam tip dot -->
+              <circle cx="140" cy="59" r="11" fill="#F5ECD5" opacity="0.92"/>
+              <!-- Cup rim highlight ring -->
+              <ellipse cx="140" cy="96" rx="81" ry="43" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2.5"/>
+              <!-- Surface sheen -->
+              <ellipse cx="116" cy="76" rx="19" ry="8" fill="rgba(255,255,255,0.06)" transform="rotate(-22 116 76)"/>
+            </svg>
+          </div>
+          <div class="menu-body">
+            <h3 class="menu-name">May's House Blend</h3>
+            <p class="menu-origin">Multi-origin · Caramel &amp; Nutty notes</p>
+            <div class="menu-footer">
+              <span class="menu-price">$24.00</span>
+              <button class="add-btn" aria-label="Add May's House Blend to cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="testimonials" aria-labelledby="testi-heading">
+    <div class="container">
+      <p class="section-label">Customer Love</p>
+      <h2 class="section-title" id="testi-heading">What Our Community Says</h2>
+      <div class="testi-grid">
+        <div class="testi-card fade-up">
+          <div class="stars" aria-label="5 stars">★★★★★</div>
+          <p class="testi-quote">"May's Coffee has completely transformed my mornings. The Ethiopian Yirgacheffe is absolutely divine — floral, bright, and unlike anything I've had before."</p>
+          <div class="testi-author">
+            <div class="testi-avatar av1" aria-hidden="true">SJ</div>
+            <div>
+              <p class="testi-name">Sarah Johnson</p>
+              <p class="testi-role">Home Barista, London</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card fade-up" style="transition-delay:0.1s">
+          <div class="stars" aria-label="5 stars">★★★★★</div>
+          <p class="testi-quote">"I've tried dozens of specialty roasters and May's consistently delivers. The freshness is unreal — you can taste the difference from the very first cup."</p>
+          <div class="testi-author">
+            <div class="testi-avatar av3" aria-hidden="true">MK</div>
+            <div>
+              <p class="testi-name">Marcus Klein</p>
+              <p class="testi-role">Coffee Enthusiast, Berlin</p>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card fade-up" style="transition-delay:0.2s">
+          <div class="stars" aria-label="5 stars">★★★★★</div>
+          <p class="testi-quote">"The House Blend is my non-negotiable. Bold, smooth, and absolutely perfect for my espresso machine. Fast delivery and stunning packaging too."</p>
+          <div class="testi-author">
+            <div class="testi-avatar av5" aria-hidden="true">AL</div>
+            <div>
+              <p class="testi-name">Amara Levi</p>
+              <p class="testi-role">Café Owner, New York</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NEWSLETTER ── -->
+  <section class="newsletter" aria-labelledby="nl-heading">
+    <div class="container">
+      <p class="section-label">Stay In The Loop</p>
+      <h2 style="font-size: clamp(1.8rem,3vw,2.4rem); font-family:'Playfair Display',serif; margin-bottom:16px;" id="nl-heading">
+        Fresh Beans, Fresh News
+      </h2>
+      <p>Get brewing guides, exclusive offers, and first access to new roasts delivered straight to your inbox.</p>
+      <form class="nl-form" onsubmit="handleSubscribe(event)" novalidate>
+        <label for="nl-email" class="visually-hidden">Email address</label>
+        <input
+          class="nl-input" id="nl-email" type="email"
+          placeholder="Enter your email address"
+          aria-label="Email address" required
+        />
+        <button class="nl-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo">May's Coffee</a>
+          <p>Premium single-origin beans, small-batch roasted and delivered fresh to your door. Every cup, a journey.</p>
+          <div class="social-icons" aria-label="Social media links">
+            <!-- Instagram -->
+            <a class="social-icon" href="#" aria-label="Follow us on Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+            <!-- Twitter/X -->
+            <a class="social-icon" href="#" aria-label="Follow us on Twitter">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <!-- Facebook -->
+            <a class="social-icon" href="#" aria-label="Follow us on Facebook">
+              <svg width="15" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <nav class="footer-nav" aria-label="Products">
+          <h4>Products</h4>
+          <ul>
+            <li><a href="#">Single Origin Beans</a></li>
+            <li><a href="#">House Blends</a></li>
+            <li><a href="#">Espresso Roasts</a></li>
+            <li><a href="#">Gift Sets</a></li>
+          </ul>
+        </nav>
+        <nav class="footer-nav" aria-label="Learn">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="#">Brewing Guides</a></li>
+            <li><a href="#">Tasting Notes</a></li>
+            <li><a href="#">Our Farmers</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </nav>
+        <nav class="footer-nav" aria-label="Company">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About May's</a></li>
+            <li><a href="#">Wholesale</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 May's Coffee. All rights reserved.</p>
+        <p>Made with love &amp; great coffee ✦</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Visually hidden utility -->
+  <style>
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+  </style>
+
+  <script>
+    // ── Sticky navbar shadow on scroll ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // ── Mobile hamburger ──
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Close mobile menu when a link is tapped
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // ── Intersection Observer for fade-up ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── Newsletter subscribe ──
+    function handleSubscribe(e) {
+      e.preventDefault();
+      const input = document.getElementById('nl-email');
+      if (!input.value || !input.validity.valid) {
+        input.focus(); return;
+      }
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Subscribed ✦';
+      btn.style.background = '#4CAF50';
+      btn.disabled = true;
+      input.value = '';
+    }
+
+    // ── Add to cart feedback ──
+    document.querySelectorAll('.add-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const orig = this.textContent;
+        this.textContent = 'Added ✦';
+        this.style.background = 'var(--gold)';
+        this.disabled = true;
+        setTimeout(() => {
+          this.textContent = orig;
+          this.style.background = '';
+          this.disabled = false;
+        }, 1800);
+      });
+    });
+  </script>
+</body>
+</html>

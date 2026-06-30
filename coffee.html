@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>May's Coffee — Steaming Cups</title>
+  <!--
+    IMAGES REQUIRED — save these inside the /images/ folder:
+      images/hero-cafe.jpg     → the warm Nordic cafe (pegboard wall, arches, pendant lights)
+      images/interior-cafe.jpg → the industrial space (stairs, circular sun art, concrete)
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="coffee.css" />
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     NAVBAR
+════════════════════════════════════ -->
+<nav class="navbar" id="navbar" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="#" class="nav-logo" aria-label="May's Coffee home">May's Coffee</a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="#space">The Space</a></li>
+      <li><a href="#contact">Visit</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login" id="nav-login-btn">Login</a>
+      <button class="nav-book" onclick="openReservationModal()">Book a Table</button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu" role="menu">
+    <a href="#menu"    role="menuitem">Menu</a>
+    <a href="#story"   role="menuitem">Our Story</a>
+    <a href="#space"   role="menuitem">The Space</a>
+    <a href="#contact" role="menuitem">Visit</a>
+    <a href="login.html" class="nav-login">Login</a>
+    <button class="nav-book" onclick="openReservationModal()">Book a Table</button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════
+     HERO  (hero-cafe.jpg background)
+════════════════════════════════════ -->
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="container">
+    <div class="hero-content">
+      <span class="hero-tag">Est. 2018 · Specialty Coffee</span>
+      <h1 id="hero-heading">
+        May's<br>
+        <span class="line-accent">Coffee</span>
+      </h1>
+      <p class="hero-sub">
+        A sanctuary for those who believe a great cup of coffee is more than a drink —
+        it's a ritual. Sourced with intention, roasted with craft, served with warmth.
+      </p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Explore Menu</button>
+        <button class="btn-outline" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">Our Story</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom stats -->
+  <div class="hero-stats" aria-label="Quick facts">
+    <div class="hero-stats-inner">
+      <div>
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Happy Customers</span>
+      </div>
+      <div>
+        <span class="stat-num">12</span>
+        <span class="stat-label">Single Origins</span>
+      </div>
+      <div>
+        <span class="stat-num">7</span>
+        <span class="stat-label">Brew Methods</span>
+      </div>
+      <div>
+        <span class="stat-num">48h</span>
+        <span class="stat-label">From Roast to Cup</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     MARQUEE STRIP
+════════════════════════════════════ -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <!-- Duplicated for seamless loop -->
+    <div class="marquee-content">
+      <span class="m-item">Hand Drip</span><span class="m-dot">·</span>
+      <span class="m-item">Espresso</span><span class="m-dot">·</span>
+      <span class="m-item">Americano</span><span class="m-dot">·</span>
+      <span class="m-item">Flat White</span><span class="m-dot">·</span>
+      <span class="m-item">Cortado</span><span class="m-dot">·</span>
+      <span class="m-item">Pour Over</span><span class="m-dot">·</span>
+      <span class="m-item">Cold Brew</span><span class="m-dot">·</span>
+      <span class="m-item">Chocolate</span><span class="m-dot">·</span>
+      <span class="m-item">Cappuccino</span><span class="m-dot">·</span>
+      <span class="m-item">Latte</span><span class="m-dot">·</span>
+      <span class="m-item">Macchiato</span><span class="m-dot">·</span>
+      <span class="m-item">Ristretto</span><span class="m-dot">·</span>
+    </div>
+    <div class="marquee-content" aria-hidden="true">
+      <span class="m-item">Hand Drip</span><span class="m-dot">·</span>
+      <span class="m-item">Espresso</span><span class="m-dot">·</span>
+      <span class="m-item">Americano</span><span class="m-dot">·</span>
+      <span class="m-item">Flat White</span><span class="m-dot">·</span>
+      <span class="m-item">Cortado</span><span class="m-dot">·</span>
+      <span class="m-item">Pour Over</span><span class="m-dot">·</span>
+      <span class="m-item">Cold Brew</span><span class="m-dot">·</span>
+      <span class="m-item">Chocolate</span><span class="m-dot">·</span>
+      <span class="m-item">Cappuccino</span><span class="m-dot">·</span>
+      <span class="m-item">Latte</span><span class="m-dot">·</span>
+      <span class="m-item">Macchiato</span><span class="m-dot">·</span>
+      <span class="m-item">Ristretto</span><span class="m-dot">·</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     STORY SECTION
+     (interior-cafe.jpg inside the arch)
+════════════════════════════════════ -->
+<section class="story" id="story" aria-labelledby="story-heading">
+  <div class="container">
+    <div class="story-grid">
+
+      <!-- Text -->
+      <div class="story-text fade-up">
+        <span class="eyebrow">Our Story</span>
+        <h2 class="section-title" id="story-heading">A Space Where<br>Coffee Meets Craft</h2>
+        <p>
+          May's Coffee was born from a simple conviction: that great coffee deserves a great
+          environment. We designed every corner of our space — from the warm wood-slat counters
+          to the handpicked pendant lights — to make you feel at home the moment you walk in.
+        </p>
+        <p>
+          Every bean we source comes with a story. We visit farms, build relationships, and
+          roast in small batches so that what lands in your cup is nothing short of extraordinary.
+          No shortcuts. No compromises. Just coffee done right.
+        </p>
+        <div class="story-facts">
+          <div class="fact-item">
+            <strong>2018</strong>
+            <span>Founded</span>
+          </div>
+          <div class="fact-item">
+            <strong>8+</strong>
+            <span>Farm Partners</span>
+          </div>
+          <div class="fact-item">
+            <strong>3</strong>
+            <span>Roast Profiles</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arch frame: interior-cafe.jpg -->
+      <div class="story-visual fade-up" style="transition-delay:0.15s">
+        <div class="arch-frame" role="img" aria-label="Inside May's Coffee — our multi-level space with circular sun art and concrete details">
+          <span class="arch-caption">Our Space</span>
+        </div>
+        <div class="arch-badge" aria-hidden="true">
+          <strong>100%</strong>
+          <span>Specialty</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     PEGBOARD MENU
+════════════════════════════════════ -->
+<section class="pegboard-section" id="menu" aria-labelledby="menu-heading">
+  <div class="container">
+    <div class="pgboard-grid">
+
+      <!-- Pegboard wall -->
+      <div class="pgboard-wall fade-up" aria-labelledby="menu-heading">
+        <h2 id="menu-heading">Steaming<br>Cups</h2>
+        <ul class="pgboard-list" role="list">
+          <li class="pgboard-row">
+            <span class="pgboard-name">Hand Drip</span>
+            <span class="pgboard-dotline" aria-hidden="true"></span>
+            <span class="pgboard-price">₵5.00</span>
+          </li>
+          <li class="pgboard-row">
+            <span class="pgboard-name">Espresso</span>
+            <span class="pgboard-dotline" aria-hidden="true"></span>
+            <span class="pgboard-price">₵4.00</span>
+          </li>
+          <li class="pgboard-row">
+            <span class="pgboard-name">Americano</span>
+            <span class="pgboard-dotline" aria-hidden="true"></span>
+            <span class="pgboard-price">₵4.50</span>
+          </li>
+          <li class="pgboard-row">
+            <span class="pgboard-name">Flat White</span>
+            <span class="pgboard-dotline" aria-hidden="true"></span>
+            <span class="pgboard-price">₵5.50</span>
+          </li>
+          <li class="pgboard-row">
+            <span class="pgboard-name">Cortado</span>
+            <span class="pgboard-dotline" aria-hidden="true"></span>
+            <span class="pgboard-price">₵5.00</span>
+          </li>
+          <li class="pgboard-row">
+            <span class="pgboard-name">Chocolate</span>
+            <span class="pgboard-dotline" aria-hidden="true"></span>
+            <span class="pgboard-price">₵5.50</span>
+          </li>
+          <li class="pgboard-row">
+            <span class="pgboard-name">Cold Brew</span>
+            <span class="pgboard-dotline" aria-hidden="true"></span>
+            <span class="pgboard-price">₵6.00</span>
+          </li>
+          <li class="pgboard-row">
+            <span class="pgboard-name">Hot Drinks</span>
+            <span class="pgboard-dotline" aria-hidden="true"></span>
+            <span class="pgboard-price">From ₵4</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Menu product cards -->
+      <div class="pgboard-cards">
+
+        <!-- Card 1: Ethiopian Pour-Over -->
+        <div class="menu-card fade-up">
+          <div class="menu-card-img">
+            <span class="roast-tag">Medium Roast</span>
+            <img src="https://www.roastshopcoffee.com/wp-content/uploads/2022/01/Yirgacheffee-on-tabel-beans-brewing-958x1024.jpg" alt="Ethiopian Yirgacheffe coffee" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          </div>
+          <div class="menu-card-body">
+            <h3>Ethiopian Yirgacheffe</h3>
+            <p>Ethiopia · Floral &amp; Citrus notes</p>
+            <div class="menu-card-foot">
+              <span class="card-price">₵18.00</span>
+              <button class="add-btn" aria-label="Add Ethiopian Yirgacheffe to cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Colombian Espresso -->
+        <div class="menu-card fade-up" style="transition-delay:0.1s">
+          <div class="menu-card-img">
+            <span class="roast-tag">Dark Roast</span>
+            <img src="https://images.squarespace-cdn.com/content/v1/58e7873e440243ae10bc8093/1648156507916-IL0JHZPK9PZYQQGKCVE1/lacas_coffee_0322_0332+2+1.jpg?format=1500w" alt="Colombian Supremo coffee" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          </div>
+          <div class="menu-card-body">
+            <h3>Colombian Supremo</h3>
+            <p>Colombia · Rich &amp; Chocolatey notes</p>
+            <div class="menu-card-foot">
+              <span class="card-price">₵20.00</span>
+              <button class="add-btn" aria-label="Add Colombian Supremo to cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: House Blend Cappuccino -->
+        <div class="menu-card fade-up" style="transition-delay:0.2s">
+          <div class="menu-card-img">
+            <span class="roast-tag">Espresso Blend</span>
+            <img src="https://www.simplejoy.com/wp-content/uploads/2018/02/salted_caramel_irish_coffee_recipe-3.jpg" alt="May's House Caramel coffee" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          </div>
+          <div class="menu-card-body">
+            <h3>May's House Blend</h3>
+            <p>Multi-origin · Caramel &amp; Nutty notes</p>
+            <div class="menu-card-foot">
+              <span class="card-price">₵24.00</span>
+              <button class="add-btn" aria-label="Add May's House Blend to cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /pgboard-cards -->
+    </div><!-- /pgboard-grid -->
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     FEATURES (dark bg)
+════════════════════════════════════ -->
+<section class="features-section" aria-labelledby="feat-heading">
+  <div class="container">
+    <span class="eyebrow eyebrow-lt">Why May's Coffee</span>
+    <h2 class="section-title" id="feat-heading" style="color:#fff">Crafted With<br>Intention</h2>
+    <div class="features-grid">
+
+      <div class="feat-card fade-up">
+        <div class="feat-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a10 10 0 010 20"/>
+            <path d="M2 12h20"/>
+            <path d="M12 2c-2.5 3-4 6.5-4 10s1.5 7 4 10"/>
+          </svg>
+        </div>
+        <h3>Single Origin Beans</h3>
+        <p>Every bean is sourced from a single farm, preserving the unique character of its origin. We visit farms to build lasting relationships with growers worldwide.</p>
+      </div>
+
+      <div class="feat-card fade-up" style="transition-delay:0.1s">
+        <div class="feat-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <h3>Small Batch Roasted</h3>
+        <p>Roasted in controlled small batches to lock in peak flavour. No warehousing, no stale beans — each roast is calibrated by our head roaster to bring out the best.</p>
+      </div>
+
+      <div class="feat-card fade-up" style="transition-delay:0.2s">
+        <div class="feat-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 010 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+            <line x1="6" y1="1" x2="6" y2="4"/>
+            <line x1="10" y1="1" x2="10" y2="4"/>
+            <line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <h3>7 Brew Methods</h3>
+        <p>From hand-drip to full immersion, our baristas are trained in seven brewing methods. Every technique unlocks a different dimension of flavour from the same bean.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     OUR SPACE  (interior-cafe.jpg bg)
+════════════════════════════════════ -->
+<section class="our-space" id="space" aria-labelledby="space-heading">
+  <div class="container">
+    <div class="space-content fade-up">
+      <span class="eyebrow eyebrow-lt">Our Space</span>
+      <h2 class="section-title" id="space-heading">Architecture<br>Meets Aroma</h2>
+      <p>
+        The space was designed as a living experience — concrete textures, warm timber accents,
+        the glow of our signature sun-circle installation, and a double-height atrium filled
+        with natural light and the scent of freshly ground coffee.
+      </p>
+      <div class="space-tags">
+        <span class="space-tag">Multi-Level Seating</span>
+        <span class="space-tag">Specialty Bar</span>
+        <span class="space-tag">Brew Library</span>
+        <span class="space-tag">Private Events</span>
+        <span class="space-tag">Retail Beans</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════ -->
+<section class="testimonials-section" aria-labelledby="testi-heading">
+  <div class="container">
+    <span class="eyebrow">Customer Love</span>
+    <h2 class="section-title" id="testi-heading">What People Are<br>Saying</h2>
+    <div class="testi-grid">
+
+      <div class="testi-card fade-up">
+        <div class="stars" aria-label="5 stars">★★★★★</div>
+        <p class="testi-quote">"Walking into May's is like stepping into a different world. The space is stunning, the coffee is even better. The hand drip changed everything I thought I knew about coffee."</p>
+        <div class="testi-author">
+          <div class="tav tav-1" aria-hidden="true">SJ</div>
+          <div>
+            <p class="testi-name">Sarah Johnson</p>
+            <p class="testi-role">Home Barista, London</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card fade-up" style="transition-delay:0.1s">
+        <div class="stars" aria-label="5 stars">★★★★★</div>
+        <p class="testi-quote">"The architecture alone is worth the visit, but it's the Colombian Supremo that keeps me coming back every week. Exceptional craftsmanship in every single cup."</p>
+        <div class="testi-author">
+          <div class="tav tav-2" aria-hidden="true">MK</div>
+          <div>
+            <p class="testi-name">Marcus Klein</p>
+            <p class="testi-role">Coffee Enthusiast, Berlin</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card fade-up" style="transition-delay:0.2s">
+        <div class="stars" aria-label="5 stars">★★★★★</div>
+        <p class="testi-quote">"I've worked in specialty coffee for years. May's is on a different level — the sourcing, the roasting, the environment. It's the kind of place that reminds you why you fell in love with coffee."</p>
+        <div class="testi-author">
+          <div class="tav tav-3" aria-hidden="true">AL</div>
+          <div>
+            <p class="testi-name">Amara Levi</p>
+            <p class="testi-role">Café Owner, New York</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     NEWSLETTER
+════════════════════════════════════ -->
+<section class="newsletter-section" id="contact" aria-labelledby="nl-heading">
+  <div class="container">
+    <span class="eyebrow eyebrow-lt">Stay Connected</span>
+    <h2 class="section-title" id="nl-heading">Fresh Roasts,<br>Straight to You</h2>
+    <p>Get brewing guides, seasonal menus, and early access to new single origins — delivered fresh to your inbox.</p>
+    <form class="nl-form" onsubmit="handleSubscribe(event)" novalidate>
+      <label for="nl-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Email address</label>
+      <input class="nl-input" id="nl-email" type="email" placeholder="your@email.com" required aria-label="Email address" />
+      <button class="nl-btn" type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     FOOTER
+════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">May's Coffee</a>
+        <p>Premium single-origin, small-batch roasted coffee served in a space crafted for those who appreciate the art of the cup.</p>
+        <div class="footer-hours">
+          <div class="hour-item">
+            <strong>Mon – Fri</strong>
+            <span>7:00 AM – 7:00 PM</span>
+          </div>
+          <div class="hour-item">
+            <strong>Sat – Sun</strong>
+            <span>8:00 AM – 6:00 PM</span>
+          </div>
+        </div>
+        <div class="social-icons" aria-label="Social media" style="margin-top:18px">
+          <a class="social-icon" href="#" aria-label="Instagram">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a class="social-icon" href="#" aria-label="Twitter / X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a class="social-icon" href="#" aria-label="Facebook">
+            <svg width="14" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Nav 1 -->
+      <nav class="footer-nav" aria-label="Menu">
+        <h4>Menu</h4>
+        <ul>
+          <li><a href="#">Hand Drip Coffee</a></li>
+          <li><a href="#">Espresso Drinks</a></li>
+          <li><a href="#">Cold Brew</a></li>
+          <li><a href="#">Seasonal Specials</a></li>
+          <li><a href="#">Retail Beans</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav 2 -->
+      <nav class="footer-nav" aria-label="Visit">
+        <h4>Visit</h4>
+        <ul>
+          <li><a href="#">Find Us</a></li>
+          <li><a href="#">Book a Table</a></li>
+          <li><a href="#">Private Events</a></li>
+          <li><a href="#">Wholesale</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav 3 -->
+      <nav class="footer-nav" aria-label="Learn">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Brewing Guides</a></li>
+          <li><a href="#">Farm Partners</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </nav>
+
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 May's Coffee. All rights reserved.</p>
+      <p style="color:rgba(255,255,255,0.28)">Crafted with intention ✦</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════ -->
+<script>
+  const API = '/api';
+
+  // ── Auth state in navbar ──
+  (function syncAuthUI() {
+    const raw  = sessionStorage.getItem('mays_user');
+    const btn  = document.getElementById('nav-login-btn');
+    if (!raw || !btn) return;
+    const user = JSON.parse(raw);
+    btn.textContent = user.name.split(' ')[0];
+    btn.href        = '#';
+    btn.title       = `Signed in as ${user.email}`;
+    btn.onclick     = (e) => {
+      e.preventDefault();
+      if (confirm(`Sign out of ${user.name}?`)) {
+        sessionStorage.removeItem('mays_user');
+        btn.textContent = 'Login';
+        btn.href        = 'login.html';
+        btn.onclick     = null;
+      }
+    };
+  })();
+
+  // ── Navbar scrolled state ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // ── Mobile hamburger ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+  });
+  mobileMenu.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    })
+  );
+
+  // ── Fade-up on scroll ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── CART state ──
+  const cart = [];
+
+  // ── Add to Cart ──
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const card  = this.closest('.menu-card');
+      const name  = card.querySelector('h3').textContent.trim();
+      const price = parseFloat(card.querySelector('.card-price').textContent.replace(/[^\d.]/g, ''));
+
+      const existing = cart.find(i => i.name === name);
+      if (existing) { existing.qty += 1; }
+      else { cart.push({ name, price, qty: 1 }); }
+
+      const orig = this.textContent;
+      this.textContent = `In Cart (${cart.find(i => i.name === name).qty}) ✦`;
+      this.style.background = 'var(--gold)';
+      setTimeout(() => { this.textContent = orig; this.style.background = ''; }, 1800);
+
+      updateCartBadge();
+    });
+  });
+
+  function updateCartBadge() {
+    let badge = document.getElementById('cart-badge');
+    if (!badge) {
+      badge = document.createElement('button');
+      badge.id = 'cart-badge';
+      badge.setAttribute('aria-label', 'View cart');
+      badge.onclick = openCartModal;
+      badge.style.cssText = `
+        position:fixed;bottom:28px;right:28px;z-index:9000;
+        background:var(--gold,#c8a96e);color:#fff;border:none;
+        border-radius:50px;padding:12px 20px;font-size:14px;
+        font-family:inherit;font-weight:600;cursor:pointer;
+        box-shadow:0 4px 20px rgba(0,0,0,.3);transition:transform .2s;
+      `;
+      document.body.appendChild(badge);
+    }
+    const total = cart.reduce((s, i) => s + i.qty, 0);
+    badge.textContent = `Cart (${total})`;
+    badge.style.display = total ? 'block' : 'none';
+  }
+
+  // ── Cart Modal ──
+  function openCartModal() {
+    const existing = document.getElementById('cart-modal');
+    if (existing) existing.remove();
+
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
+    const rows  = cart.map(i =>
+      `<tr><td>${i.name}</td><td style="text-align:center">${i.qty}</td><td style="text-align:right">₵${(i.price*i.qty).toFixed(2)}</td></tr>`
+    ).join('');
+
+    const modal = document.createElement('div');
+    modal.id = 'cart-modal';
+    modal.innerHTML = `
+      <div class="mc-overlay" onclick="document.getElementById('cart-modal').remove()"></div>
+      <div class="mc-box" role="dialog" aria-modal="true" aria-label="Your Cart">
+        <h3 style="margin:0 0 16px">Your Cart</h3>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px">
+          <thead><tr style="border-bottom:1px solid #eee">
+            <th style="text-align:left;padding-bottom:8px">Item</th>
+            <th style="text-align:center;padding-bottom:8px">Qty</th>
+            <th style="text-align:right;padding-bottom:8px">Price</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot><tr style="border-top:2px solid #333">
+            <td colspan="2" style="padding-top:10px;font-weight:700">Total</td>
+            <td style="text-align:right;padding-top:10px;font-weight:700">₵${total}</td>
+          </tr></tfoot>
+        </table>
+        <form id="cart-form" onsubmit="placeOrder(event)">
+          <input class="mc-input" type="text"  placeholder="Your name"  id="co-name"  required />
+          <input class="mc-input" type="email" placeholder="Your email" id="co-email" required />
+          <button class="mc-submit" type="submit">Place Order</button>
+        </form>
+        <button class="mc-close" onclick="document.getElementById('cart-modal').remove()" aria-label="Close">✕</button>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+
+  async function placeOrder(e) {
+    e.preventDefault();
+    const btn  = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Placing…';
+
+    try {
+      const res = await fetch(`${API}/order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: cart.map(i => ({ name: i.name, price: i.price, qty: i.qty })),
+          customerName: document.getElementById('co-name').value.trim(),
+          email: document.getElementById('co-email').value.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      cart.length = 0;
+      updateCartBadge();
+      document.getElementById('cart-modal').remove();
+      showToast('Order placed! We\'ll have it ready for you. ✦');
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Place Order';
+      showToast(err.message, true);
+    }
+  }
+
+  // ── Newsletter ──
+  async function handleSubscribe(e) {
+    e.preventDefault();
+    const input = document.getElementById('nl-email');
+    if (!input.value || !input.validity.valid) { input.focus(); return; }
+
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Subscribing…';
+    btn.disabled = true;
+
+    try {
+      const res  = await fetch(`${API}/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: input.value.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      btn.textContent = 'Subscribed ✦';
+      btn.style.background = '#4CAF50';
+      input.value = '';
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Subscribe';
+      showToast(err.message, true);
+    }
+  }
+
+  // ── Reservation Modal ──
+  function openReservationModal() {
+    const existing = document.getElementById('res-modal');
+    if (existing) existing.remove();
+
+    const today = new Date().toISOString().split('T')[0];
+    const modal = document.createElement('div');
+    modal.id = 'res-modal';
+    modal.innerHTML = `
+      <div class="mc-overlay" onclick="document.getElementById('res-modal').remove()"></div>
+      <div class="mc-box" role="dialog" aria-modal="true" aria-label="Book a Table">
+        <h3 style="margin:0 0 16px">Book a Table</h3>
+        <form id="res-form" onsubmit="submitReservation(event)">
+          <input class="mc-input" type="text"  placeholder="Full name"    id="r-name"   required />
+          <input class="mc-input" type="email" placeholder="Email"        id="r-email"  required />
+          <input class="mc-input" type="tel"   placeholder="Phone (opt.)" id="r-phone"  />
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <input class="mc-input" type="date"   id="r-date"   min="${today}" required style="margin:0"/>
+            <input class="mc-input" type="time"   id="r-time"   required style="margin:0"/>
+          </div>
+          <input class="mc-input" type="number" placeholder="Guests" id="r-guests" min="1" max="20" required />
+          <textarea class="mc-input" placeholder="Special requests (optional)" id="r-notes" rows="2" style="resize:vertical"></textarea>
+          <button class="mc-submit" type="submit">Confirm Booking</button>
+        </form>
+        <button class="mc-close" onclick="document.getElementById('res-modal').remove()" aria-label="Close">✕</button>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+
+  async function submitReservation(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Booking…';
+
+    try {
+      const res = await fetch(`${API}/reserve`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:   document.getElementById('r-name').value.trim(),
+          email:  document.getElementById('r-email').value.trim(),
+          phone:  document.getElementById('r-phone').value.trim(),
+          date:   document.getElementById('r-date').value,
+          time:   document.getElementById('r-time').value,
+          guests: document.getElementById('r-guests').value,
+          notes:  document.getElementById('r-notes').value.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      document.getElementById('res-modal').remove();
+      showToast('Table booked! We\'ll see you soon. ✦');
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Confirm Booking';
+      showToast(err.message, true);
+    }
+  }
+
+  // ── Toast notification ──
+  function showToast(msg, isError = false) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `
+      position:fixed;bottom:90px;right:28px;z-index:9999;
+      background:${isError ? '#c0392b' : '#27ae60'};color:#fff;
+      padding:14px 22px;border-radius:8px;font-size:14px;
+      box-shadow:0 4px 20px rgba(0,0,0,.25);
+      animation:toastIn .3s ease;
+    `;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3500);
+  }
+</script>
+
+<!-- ── Modal + Toast styles ── -->
+<style>
+  @keyframes toastIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+  .mc-overlay {
+    position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:8998;
+  }
+  .mc-box {
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    z-index:8999;background:#fff;border-radius:16px;padding:36px 32px;
+    width:min(480px,92vw);max-height:90vh;overflow-y:auto;
+    box-shadow:0 20px 60px rgba(0,0,0,.3);
+  }
+  .mc-input {
+    display:block;width:100%;box-sizing:border-box;
+    margin-bottom:12px;padding:12px 14px;border:1px solid #ddd;
+    border-radius:8px;font-size:15px;font-family:inherit;outline:none;
+  }
+  .mc-input:focus { border-color:#c8a96e; }
+  .mc-submit {
+    width:100%;padding:14px;background:#1a1a1a;color:#fff;border:none;
+    border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;
+    font-family:inherit;transition:background .2s;margin-top:4px;
+  }
+  .mc-submit:hover  { background:#c8a96e; }
+  .mc-submit:disabled { opacity:.6;cursor:not-allowed; }
+  .mc-close {
+    position:absolute;top:14px;right:16px;background:none;border:none;
+    font-size:20px;cursor:pointer;color:#666;line-height:1;
+  }
+  .mc-close:hover { color:#000; }
+</style>
+</body>
+</html>
