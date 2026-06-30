@@ -10,7 +10,16 @@ const SALT_ROUNDS = 10;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
+
+// In local dev, serve the HTML/CSS/images from the project folder
+if (require.main === module) {
+  app.use(require('express').static(__dirname));
+}
+
+// ════════════════════════════════════════════════════════
+// HEALTH CHECK
+// ════════════════════════════════════════════════════════
+app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
 // ════════════════════════════════════════════════════════
 // AUTH
