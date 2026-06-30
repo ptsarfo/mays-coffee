@@ -635,13 +635,20 @@ footer {
   /* Navbar */
   .nav-links, .nav-actions { display: none; }
   .hamburger { display: flex; }
+  .nav-logo  { white-space: nowrap; }
+
+  /* Hero — stop content overlapping the stats bar */
+  .hero               { align-items: flex-start; padding-bottom: 160px; }
+  .hero-content       { padding-top: 100px; }
+  .hero h1            { font-size: clamp(2.6rem, 10vw, 4rem); margin-bottom: 18px; }
+  .hero-sub           { font-size: 0.9rem; margin-bottom: 28px; max-width: 100%; }
+  .hero-tag           { font-size: 0.65rem; margin-bottom: 16px; }
 
   /* Hero stats — 2 per row */
-  .hero-stats-inner {
-    flex-wrap: wrap;
-    gap: 20px 32px;
-  }
-  .hero-stats-inner > div { width: calc(50% - 16px); }
+  .hero-stats         { padding: 24px 0 20px; }
+  .hero-stats-inner   { flex-wrap: wrap; gap: 16px 24px; }
+  .hero-stats-inner > div { width: calc(50% - 12px); }
+  .stat-num           { font-size: 1.8rem; }
 
   /* Story */
   .story-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -679,13 +686,18 @@ footer {
   .container { padding: 0 16px; }
 
   /* Hero */
-  .hero-ctas  { flex-direction: column; }
-  .btn-primary, .btn-outline { width: 100%; text-align: center; }
+  .hero             { padding-bottom: 180px; }
+  .hero-content     { padding-top: 90px; }
+  .hero h1          { font-size: clamp(2.2rem, 11vw, 3rem); margin-bottom: 14px; }
+  .hero-sub         { font-size: 0.85rem; line-height: 1.65; margin-bottom: 24px; }
+  .hero-ctas        { flex-direction: column; }
+  .btn-primary, .btn-outline { width: 100%; text-align: center; padding: 13px 24px; }
 
-  /* Hero stats — full width each */
-  .hero-stats-inner        { gap: 16px; }
-  .hero-stats-inner > div  { width: 100%; }
-  .stat-num                { font-size: 2rem; }
+  /* Hero stats — 2 per row on portrait too */
+  .hero-stats-inner        { gap: 14px 20px; }
+  .hero-stats-inner > div  { width: calc(50% - 10px); }
+  .stat-num                { font-size: 1.6rem; }
+  .stat-label              { font-size: 0.65rem; }
 
   /* Story facts */
   .story-facts { gap: 20px; }
