@@ -2,7 +2,7 @@ const express = require('express');
 const cors    = require('cors');
 const bcrypt  = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
-const db      = require('./database');
+const { pool, init } = require('./database');
 
 const app         = express();
 const PORT        = process.env.PORT || 3000;
@@ -29,14 +29,16 @@ app.post('/api/register', async (req, res) => {
   if (password.length < 6)
     return res.status(400).json({ error: 'Password must be at least 6 characters.' });
 
-  if (db.prepare('SELECT id FROM users WHERE email = ?').get(email))
+  const existing = await pool.query('SELECT id FROM users WHERE email = $1', [email.toLowerCase()]);
+  if (existing.rows.length)
     return res.status(409).json({ error: 'An account with that email already exists.' });
 
   const hash = await bcrypt.hash(password, SALT_ROUNDS);
   const id   = uuidv4();
-  db.prepare(
-    'INSERT INTO users (id, name, email, password_hash, created_at) VALUES (?, ?, ?, ?, ?)'
-  ).run(id, name.trim(), email.trim().toLowerCase(), hash, new Date().toISOString());
+  await pool.query(
+    'INSERT INTO users (id, name, email, password_hash, created_at) VALUES ($1,$2,$3,$4,$5)',
+    [id, name.trim(), email.trim().toLowerCase(), hash, new Date().toISOString()]
+  );
 
   res.status(201).json({ message: 'Account created!', user: { id, name, email } });
 });
@@ -48,7 +50,9 @@ app.post('/api/login', async (req, res) => {
   if (!email || !password)
     return res.status(400).json({ error: 'email and password are required.' });
 
-  const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email.trim().toLowerCase());
+  const result = await pool.query('SELECT * FROM users WHERE email = $1', [email.trim().toLowerCase()]);
+  const user   = result.rows[0];
+
   if (!user)
     return res.status(401).json({ error: 'Invalid email or password.' });
 
@@ -60,9 +64,9 @@ app.post('/api/login', async (req, res) => {
 });
 
 // GET /api/users  (admin)
-app.get('/api/users', (_req, res) => {
-  const users = db.prepare('SELECT id, name, email, created_at FROM users ORDER BY created_at DESC').all();
-  res.json(users);
+app.get('/api/users', async (_req, res) => {
+  const result = await pool.query('SELECT id, name, email, created_at FROM users ORDER BY created_at DESC');
+  res.json(result.rows);
 });
 
 // ════════════════════════════════════════════════════════
@@ -70,25 +74,28 @@ app.get('/api/users', (_req, res) => {
 // ════════════════════════════════════════════════════════
 
 // POST /api/subscribe   { email }
-app.post('/api/subscribe', (req, res) => {
+app.post('/api/subscribe', async (req, res) => {
   const { email } = req.body;
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     return res.status(400).json({ error: 'Invalid email address.' });
 
-  if (db.prepare('SELECT id FROM subscribers WHERE email = ?').get(email))
+  const existing = await pool.query('SELECT id FROM subscribers WHERE email = $1', [email.toLowerCase()]);
+  if (existing.rows.length)
     return res.status(409).json({ error: 'Already subscribed.' });
 
-  db.prepare('INSERT INTO subscribers (id, email, subscribed_at) VALUES (?, ?, ?)').run(
-    uuidv4(), email.trim().toLowerCase(), new Date().toISOString()
+  await pool.query(
+    'INSERT INTO subscribers (id, email, subscribed_at) VALUES ($1,$2,$3)',
+    [uuidv4(), email.trim().toLowerCase(), new Date().toISOString()]
   );
 
   res.json({ message: 'Subscribed successfully!' });
 });
 
 // GET /api/subscribers  (admin)
-app.get('/api/subscribers', (_req, res) => {
-  res.json(db.prepare('SELECT * FROM subscribers ORDER BY subscribed_at DESC').all());
+app.get('/api/subscribers', async (_req, res) => {
+  const result = await pool.query('SELECT * FROM subscribers ORDER BY subscribed_at DESC');
+  res.json(result.rows);
 });
 
 // ════════════════════════════════════════════════════════
@@ -96,25 +103,27 @@ app.get('/api/subscribers', (_req, res) => {
 // ════════════════════════════════════════════════════════
 
 // POST /api/reserve   { name, email, phone, date, time, guests, notes }
-app.post('/api/reserve', (req, res) => {
+app.post('/api/reserve', async (req, res) => {
   const { name, email, phone, date, time, guests, notes } = req.body;
 
   if (!name || !email || !date || !time || !guests)
     return res.status(400).json({ error: 'name, email, date, time and guests are required.' });
 
   const id = uuidv4();
-  db.prepare(`
-    INSERT INTO reservations (id, name, email, phone, date, time, guests, notes, status, created_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)
-  `).run(id, name.trim(), email.trim(), phone || '', date, time, Number(guests), notes || '', new Date().toISOString());
+  await pool.query(
+    `INSERT INTO reservations (id, name, email, phone, date, time, guests, notes, status, created_at)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,'pending',$9)`,
+    [id, name.trim(), email.trim(), phone || '', date, time, Number(guests), notes || '', new Date().toISOString()]
+  );
 
-  const reservation = db.prepare('SELECT * FROM reservations WHERE id = ?').get(id);
-  res.status(201).json({ message: 'Reservation received!', reservation });
+  const result = await pool.query('SELECT * FROM reservations WHERE id = $1', [id]);
+  res.status(201).json({ message: 'Reservation received!', reservation: result.rows[0] });
 });
 
 // GET /api/reservations  (admin)
-app.get('/api/reservations', (_req, res) => {
-  res.json(db.prepare('SELECT * FROM reservations ORDER BY created_at DESC').all());
+app.get('/api/reservations', async (_req, res) => {
+  const result = await pool.query('SELECT * FROM reservations ORDER BY created_at DESC');
+  res.json(result.rows);
 });
 
 // ════════════════════════════════════════════════════════
@@ -122,7 +131,7 @@ app.get('/api/reservations', (_req, res) => {
 // ════════════════════════════════════════════════════════
 
 // POST /api/order   { items: [{ name, price, qty }], customerName, email }
-app.post('/api/order', (req, res) => {
+app.post('/api/order', async (req, res) => {
   const { items, customerName, email } = req.body;
 
   if (!items || !Array.isArray(items) || items.length === 0)
@@ -131,46 +140,61 @@ app.post('/api/order', (req, res) => {
   if (!customerName || !email)
     return res.status(400).json({ error: 'customerName and email are required.' });
 
-  const total = items.reduce((sum, i) => sum + Number(i.price) * Number(i.qty || 1), 0);
-  const id    = uuidv4();
-  const now   = new Date().toISOString();
+  const total  = items.reduce((sum, i) => sum + Number(i.price) * Number(i.qty || 1), 0);
+  const id     = uuidv4();
+  const now    = new Date().toISOString();
+  const client = await pool.connect();
 
-  // Insert order + items in one transaction so they either both succeed or both fail
-  const insertOrder = db.prepare(`
-    INSERT INTO orders (id, customer_name, email, total, status, created_at)
-    VALUES (?, ?, ?, ?, 'received', ?)
-  `);
-  const insertItem = db.prepare(`
-    INSERT INTO order_items (order_id, name, price, qty) VALUES (?, ?, ?, ?)
-  `);
-
-  db.transaction(() => {
-    insertOrder.run(id, customerName.trim(), email.trim(), total.toFixed(2), now);
+  try {
+    await client.query('BEGIN');
+    await client.query(
+      `INSERT INTO orders (id, customer_name, email, total, status, created_at)
+       VALUES ($1,$2,$3,$4,'received',$5)`,
+      [id, customerName.trim(), email.trim(), total.toFixed(2), now]
+    );
     for (const item of items) {
-      insertItem.run(id, item.name, Number(item.price), Number(item.qty || 1));
+      await client.query(
+        'INSERT INTO order_items (order_id, name, price, qty) VALUES ($1,$2,$3,$4)',
+        [id, item.name, Number(item.price), Number(item.qty || 1)]
+      );
     }
-  })();
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
 
-  const order = db.prepare('SELECT * FROM orders WHERE id = ?').get(id);
-  order.items = db.prepare('SELECT name, price, qty FROM order_items WHERE order_id = ?').all(id);
+  const orderResult = await pool.query('SELECT * FROM orders WHERE id = $1', [id]);
+  const itemsResult = await pool.query('SELECT name, price, qty FROM order_items WHERE order_id = $1', [id]);
+  const order       = { ...orderResult.rows[0], items: itemsResult.rows };
 
   res.status(201).json({ message: 'Order placed!', order });
 });
 
 // GET /api/orders  (admin) — includes items
-app.get('/api/orders', (_req, res) => {
-  const orders = db.prepare('SELECT * FROM orders ORDER BY created_at DESC').all();
-  const getItems = db.prepare('SELECT name, price, qty FROM order_items WHERE order_id = ?');
-  for (const order of orders) order.items = getItems.all(order.id);
+app.get('/api/orders', async (_req, res) => {
+  const orders = (await pool.query('SELECT * FROM orders ORDER BY created_at DESC')).rows;
+  for (const order of orders) {
+    const items  = await pool.query('SELECT name, price, qty FROM order_items WHERE order_id = $1', [order.id]);
+    order.items  = items.rows;
+  }
   res.json(orders);
 });
 
 // ════════════════════════════════════════════════════════
-// START
+// START — wait for DB tables before accepting requests
 // ════════════════════════════════════════════════════════
-app.listen(PORT, () => {
-  console.log(`May's Coffee server → http://localhost:${PORT}`);
-  console.log(`  Site  : http://localhost:${PORT}/coffee.html`);
-  console.log(`  Login : http://localhost:${PORT}/login.html`);
-  console.log(`  DB    : mays_coffee.db`);
-});
+init()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`May's Coffee server → http://localhost:${PORT}`);
+      console.log(`  Site  : http://localhost:${PORT}/coffee.html`);
+      console.log(`  Login : http://localhost:${PORT}/login.html`);
+    });
+  })
+  .catch(err => {
+    console.error('Failed to connect to database:', err.message);
+    process.exit(1);
+  });
