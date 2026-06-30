@@ -184,17 +184,25 @@ app.get('/api/orders', async (_req, res) => {
 });
 
 // ════════════════════════════════════════════════════════
-// START — wait for DB tables before accepting requests
+// START
 // ════════════════════════════════════════════════════════
-init()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`May's Coffee server → http://localhost:${PORT}`);
-      console.log(`  Site  : http://localhost:${PORT}/coffee.html`);
-      console.log(`  Login : http://localhost:${PORT}/login.html`);
+if (require.main === module) {
+  // Local: node server.js
+  init()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`May's Coffee server → http://localhost:${PORT}`);
+        console.log(`  Site  : http://localhost:${PORT}/coffee.html`);
+        console.log(`  Login : http://localhost:${PORT}/login.html`);
+      });
+    })
+    .catch(err => {
+      console.error('Failed to connect to database:', err.message);
+      process.exit(1);
     });
-  })
-  .catch(err => {
-    console.error('Failed to connect to database:', err.message);
-    process.exit(1);
-  });
+} else {
+  // Vercel serverless — init tables on cold start
+  init().catch(console.error);
+}
+
+module.exports = app;
