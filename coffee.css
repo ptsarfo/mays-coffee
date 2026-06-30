@@ -615,27 +615,112 @@ footer {
 /* ════════════════════════════════
    RESPONSIVE
 ════════════════════════════════ */
+
+/* ── Tablet ── */
 @media (max-width: 1024px) {
   .pgboard-grid { grid-template-columns: 1fr; }
   .pgboard-wall { position: static; }
   .pgboard-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 }
+
+/* ── Mobile landscape / small tablet ── */
 @media (max-width: 768px) {
+  /* Sections */
+  .story, .testimonials-section { padding: 64px 0; }
+  .features-section             { padding: 64px 0; }
+  .pegboard-section             { padding: 64px 0; }
+  .our-space                    { padding: 80px 0; }
+  .newsletter-section           { padding: 60px 0; }
+
+  /* Navbar */
   .nav-links, .nav-actions { display: none; }
   .hamburger { display: flex; }
-  .story-grid { grid-template-columns: 1fr; gap: 48px; }
+
+  /* Hero stats — 2 per row */
+  .hero-stats-inner {
+    flex-wrap: wrap;
+    gap: 20px 32px;
+  }
+  .hero-stats-inner > div { width: calc(50% - 16px); }
+
+  /* Story */
+  .story-grid { grid-template-columns: 1fr; gap: 40px; }
   .arch-frame { max-width: 100%; }
-  .features-grid { grid-template-columns: 1fr; }
-  .testi-grid { grid-template-columns: 1fr; }
+
+  /* Pegboard wall */
+  .pgboard-wall         { padding: 36px 24px; }
+  .pgboard-wall h2      { font-size: 2.6rem; }
+  .pgboard-row          { font-size: 0.95rem; }
+
+  /* Menu cards */
   .pgboard-cards { grid-template-columns: 1fr; }
-  .hero-stats-inner { flex-wrap: wrap; gap: 24px; }
-  .footer-top { flex-direction: column; }
+
+  /* Features */
+  .features-grid { grid-template-columns: 1fr; }
+
+  /* Testimonials */
+  .testi-grid { grid-template-columns: 1fr; }
+
+  /* Our space */
   .space-tags { gap: 8px; }
+
+  /* Newsletter — stack input + button */
+  .nl-form       { flex-direction: column; align-items: stretch; padding: 0 8px; }
+  .nl-input      { width: 100%; }
+  .nl-btn        { width: 100%; }
+
+  /* Footer */
+  .footer-top    { flex-direction: column; gap: 32px; }
+  .footer-brand p { max-width: 100%; }
 }
+
+/* ── Mobile portrait ── */
 @media (max-width: 480px) {
-  .container { padding: 0 20px; }
-  .hero-ctas { flex-direction: column; }
+  .container { padding: 0 16px; }
+
+  /* Hero */
+  .hero-ctas  { flex-direction: column; }
+  .btn-primary, .btn-outline { width: 100%; text-align: center; }
+
+  /* Hero stats — full width each */
+  .hero-stats-inner        { gap: 16px; }
+  .hero-stats-inner > div  { width: 100%; }
+  .stat-num                { font-size: 2rem; }
+
+  /* Story facts */
+  .story-facts { gap: 20px; }
+
+  /* Pegboard wall */
+  .pgboard-wall    { padding: 28px 16px; }
+  .pgboard-wall h2 { font-size: 2rem; }
+  .pgboard-row     { font-size: 0.85rem; gap: 6px; }
+  .pgboard-price   { font-size: 0.82rem; }
+
+  /* Menu card */
+  .menu-card-img   { height: 150px; }
+  .menu-card-body  { padding: 16px; }
+  .menu-card-foot  { flex-wrap: wrap; gap: 10px; }
+  .add-btn         { width: 100%; text-align: center; }
+
+  /* Features */
+  .feat-card { padding: 24px 18px; }
+
+  /* Testimonials */
+  .testi-card  { padding: 24px 18px; }
+  .testi-quote { font-size: 0.9rem; }
+
+  /* Section titles */
+  .section-title { font-size: clamp(1.7rem, 7vw, 2.2rem); }
+
+  /* Footer */
+  .footer-inner  { padding: 40px 16px 24px; }
+  .footer-bottom { flex-direction: column; text-align: center; gap: 8px; }
+  .footer-hours  { flex-direction: column; gap: 12px; }
+
+  /* Modals */
+  .mc-box { padding: 28px 18px; }
 }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
